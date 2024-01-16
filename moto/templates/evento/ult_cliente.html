@@ -1,0 +1,16 @@
+{% extends "principal.html" %}
+{% block cabecera %}
+    <h1 class="cabecera">Ultimo cliente en reservar un evento</h1>
+{% endblock cabecera %}
+
+
+{%block contenido%}        
+            
+    <div>
+        <h2>Nombre: {{ult_cliente.usuario.nombre}}</h2>
+        <h2>Apellidos: {{ult_cliente.usuario.apellidos}}</h2>
+        <h2>Apellidos: {{ult_cliente.fecha_reserva}}</h2>
+        <p>------------------------------------------------------------------</p>
+    </div>
+            
+{%endblock%}

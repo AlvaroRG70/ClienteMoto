@@ -1,0 +1,41 @@
+{% extends "principal.html" %}
+{% load bootstrap5 %}
+
+
+
+
+{%block contenido%}
+{% bootstrap_css %}
+<form action="{% url 'formulario_articulo' %}" method="POST">
+
+    {% csrf_token %}
+    
+    <div class="mb-4">
+        {% bootstrap_field formulario_articulo.nombre %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_articulo.tipo %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_articulo.descripcion %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_articulo.precio %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_articulo.talla %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_articulo.stock %}
+    </div>
+
+    <button type="submit">Enviar</button>
+
+</form>
+
+{%endblock%}

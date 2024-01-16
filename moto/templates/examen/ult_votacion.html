@@ -1,0 +1,20 @@
+
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Votaciones</h1>
+{% endblock cabecera %}
+
+
+{%block contenido%}
+        
+            
+                <div>
+                    <h2>Usuario: {{votacion_ultima.usuario.nombre}}</h2>
+                    <h2>Comentario: {{votacion_ultima.comentario}}</h2>
+                    <h2>Puntuacion: {{votacion_ultima.puntuacion}}</h2>
+
+                    <p>------------------------------------------------------------------</p>
+                </div>
+            
+{%endblock%}

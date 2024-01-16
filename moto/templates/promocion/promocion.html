@@ -1,0 +1,18 @@
+<div>
+    <h2>Nombre: {{promocion.nombre}}</h2>
+    <h2>descripcion: {{promocion.descripcion}}</h2>
+    <h2>Fecha fin: {{promocion.fecha_fin|date:"d-m-Y"}}</h2>
+    <h2>Descuento: {{promocion.descuento}}</h2>
+    <h2>Usuario</h2>
+    <ul>
+        {% for usuario in promocion.usuario.all %}
+            <li>{{usuario.nombre}}</li>
+            <li>{{usuario.apellidos}}</li>
+        {%endfor%}
+    </ul>
+    <p>------------------------------------------------------------------</p>
+</div>
+
+
+
+

@@ -1,0 +1,26 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Eventos</h1>
+{% endblock cabecera %}
+
+{%block contenido%}
+{{texto}}
+        {% if object_list %}
+
+            {% for moto in object_list %}
+                
+                {% include "motos/moto.html" %}
+                <a href="{% url 'moto_editar' moto.id %}">EDITAR</a>
+                <a href="{% url 'moto-moto-logic-delete' moto.id %}">ELIMINAR</a>
+            
+            {% endfor %}
+        {% else %}
+            <p>Lo sentimos no existen datos</p>
+        {% endif %}        
+
+
+{% block busqueda %}
+{% endblock %}
+
+{%endblock%}

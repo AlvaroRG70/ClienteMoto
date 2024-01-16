@@ -1,0 +1,14 @@
+{% extends "principal.html" %}
+{% block cabecera %}
+    <h1 class="cabecera">Eventos reservados con la letra a</h1>
+{% endblock cabecera %}
+
+
+{%block contenido%}
+
+        {% for evento in reserva_evento %}
+        
+            {% include "evento/evento_solo.html" %}
+        
+        {% endfor %}
+{%endblock%}

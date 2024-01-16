@@ -1,0 +1,17 @@
+<div>
+    <h2>Nombre: {{moto.nombre}}</h2>
+    <h2>Marca: {{moto.marca}}</h2>
+    <h2>Modelo: {{moto.modelo}}</h2>
+    <h2>precio: {{moto.precio}}</h2>
+    <h2>anyo: {{moto.año}}</h2>
+    <ul>
+        {% for usuario in moto.usuario.all%}
+            <li>{{usuario.nombre}}</li>
+            <li>{{usuario.apellidos}}</li>
+        {%empty%}
+            <h2>No hay usuarios</h2>
+        {%endfor%}
+    </ul>
+
+    <p>------------------------------------------------------------------</p>
+</div>

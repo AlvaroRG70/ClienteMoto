@@ -1,0 +1,20 @@
+{%extends 'principal.html'%}
+{%block contenido%}
+
+<h1 class="row">Lista de Motos</h1>
+    {% for moto in motos_mostrar%}
+        <div class="col-sm mb-2">
+            <p>ID: {{moto.id}}</p>
+            <p>nombre: {{moto.nombre}}</p>
+            <p>marca: {{moto.marca}}</p>
+            <p>modelo: {{moto.modelo}}</p>
+            <p>año: {{moto.año}}</p>
+            <p>precio: {{moto.precio}}</p>
+            <p>----------------------------------------------------------</p>
+
+        </div>
+    {% empty %}
+        <h1>Lo sentimos pero no hay motos</h1>
+    
+    {% endfor %}
+{%endblock%}

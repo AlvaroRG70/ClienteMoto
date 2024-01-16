@@ -1,0 +1,36 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Concesionarios que abrieron en 2002</h1>
+{% endblock cabecera %}
+
+
+{%block contenido%}
+    
+        {% for concesionario in anyo_apertura %}
+        
+            <div>
+
+                {% include "concesionario/concesionario.html" %}
+
+                <h2>Trabajador</h2>
+                <ul>
+                    {% for trabajador in conc.trabajador_concesionario.all %}
+                        <li>Nombre: {{trabajador.nombre}}</li>
+                        <li>Apellidos: {{trabajador.apellidos}}</li>
+                    {%empty%}
+                        <h2>No hay trabajadores</h2>
+                    {%endfor%}
+                </ul>
+
+
+                <p>------------------------------------------------------------------</p>
+            </div>
+        
+        {%empty%}
+            <h2>No hay concesionarios</h2>
+
+        {% endfor %}
+{%endblock%}
+
+

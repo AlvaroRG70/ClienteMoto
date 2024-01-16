@@ -1,0 +1,21 @@
+
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Usuarios con el nombre as</h1>
+{% endblock cabecera %}
+
+{%block contenido%}
+
+
+            {% for banco in bancos_nombre%}
+            
+                <div>
+                    <h2>Nombre: {{banco.usuario.nombre}}</h2>
+                    <h2>Banco: {{banco.banco}}</h2>
+                    <p>------------------------------------------------------------------</p>
+                </div>
+            
+            {% endfor %}
+
+{%endblock%}

@@ -1,0 +1,42 @@
+{% extends "principal.html" %}
+{% load bootstrap5 %}
+
+{%block contenido%}
+{% bootstrap_css %}
+<form action="{% url 'formulario_usuario' %}" method="POST">
+
+    {% csrf_token %}
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_usuario.nombre %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_usuario.apellidos %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_usuario.correo_electronico %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_usuario.contraseña %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_usuario.fecha_nacimiento %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_usuario.fecha_registro %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_usuario.preferencias %}
+    </div>
+
+    <button type="submit">Enviar</button>
+
+</form>
+
+{%endblock%}

@@ -1,0 +1,14 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Crear Eventos</h1>
+{% endblock %}
+
+{% block contenido %}
+    {% load bootstrap5 %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <h3>Desea eliminar el evento {{object}}</h3>
+        <button type="submit">Confirmar eliminacion Evento</button>
+    </form>
+{% endblock %}

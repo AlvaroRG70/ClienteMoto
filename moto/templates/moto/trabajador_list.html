@@ -1,0 +1,25 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Trabajadores</h1>
+{% endblock cabecera %}
+
+{%block contenido%}
+    {{texto}}
+    {% if object_list %}
+        {% for trabajador in object_list %}
+
+            {% include "trabajador/trabajador.html" %}
+            <a href="{% url 'trabajador_editar' trabajador.id %}">EDITAR</a>
+            <a href="{% url 'moto-trabajador-logic-delete' trabajador.id %}">ELIMINAR</a>
+            
+        {% endfor %}
+    {% else %}
+        <p>Lo sentimos no existen datos</p>
+    {% endif %}        
+
+
+{% block busqueda %}
+{% endblock %}
+
+{%endblock%}

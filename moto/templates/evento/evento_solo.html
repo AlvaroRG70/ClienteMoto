@@ -1,0 +1,14 @@
+<div>
+    <h2>Nombre: {{evento.nombre}}</h2>
+    <h2>Fecha: {{evento.fecha|date:"d-m-Y"}}</h2>
+    <h2>Hora: {{evento.hora}}</h2>
+    <h2>descripcion: {{evento.descripcion}}</h2>
+    <h2>Usuario</h2>
+    <ul>
+        {% for usuario in evento.usuario.all %}
+            <li>{{usuario.nombre}}</li>
+            <li>{{usuario.apellidos}}</li>
+        {%endfor%}
+    </ul>
+    <p>------------------------------------------------------------------</p>
+</div>

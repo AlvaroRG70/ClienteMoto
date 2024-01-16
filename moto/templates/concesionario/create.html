@@ -1,0 +1,38 @@
+{% extends "principal.html" %}
+{% load bootstrap5 %}
+
+{%block contenido%}
+{% bootstrap_css %}
+<form action="{% url 'formulario_concesionario' %}" method="POST">
+
+    {% csrf_token %}
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_concesionario.nombre %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_concesionario.ubicacion %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_concesionario.telefono %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_concesionario.fecha_apertura %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_concesionario.descripcion %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_concesionario.moto %}
+    </div>
+
+    <button type="submit">Enviar</button>
+
+</form>
+
+{%endblock%}

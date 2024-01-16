@@ -1,0 +1,23 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Concesionarios que contengan la letra i y abrieran en el 2000</h1>
+{% endblock cabecera %}
+
+
+{%block contenido%}
+
+        {% for concesionario in contieneanyo %}
+
+            
+            {% include "concesionario/concesionario.html" %}
+        
+        {%empty%}
+            <h2>No hay concesionarios</h2>
+
+        {% endfor %}
+
+{%endblock%}
+
+
+</html>

@@ -1,0 +1,14 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Crear motos</h1>
+{% endblock %}
+
+{% block contenido %}
+    {% load bootstrap5 %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <h3>Desea eliminar el moto {{object}}</h3>
+        <button type="submit">Confirmar eliminacion moto</button>
+    </form>
+{% endblock %}

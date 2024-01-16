@@ -1,0 +1,45 @@
+{% extends "principal.html" %}
+{% load bootstrap5 %}
+
+
+
+
+{%block contenido%}
+{% bootstrap_css %}
+<form action="{% url 'formulario_trabajador' %}" method="POST">
+
+    {% csrf_token %}
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_trabajador.nombre %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_trabajador.apellidos %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_trabajador.correo_electronico %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_trabajador.contraseña %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_trabajador.fecha_nacimiento %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_trabajador.concesionario %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_trabajador.taller %}
+    </div>
+
+    <button type="submit">Enviar</button>
+
+</form>
+
+{%endblock%}

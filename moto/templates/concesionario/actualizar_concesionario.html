@@ -1,0 +1,41 @@
+{% extends "principal.html" %}
+{% load bootstrap5 %}
+
+
+{%block contenido%}
+{% bootstrap_css %}
+<form action="{% url 'concesionario_editar' concesionario.id%}" method="POST">
+
+    {% csrf_token %}
+
+    
+
+    <div class="mb-4">
+        {% bootstrap_field concesionario_editar.nombre %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field concesionario_editar.ubicacion %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field concesionario_editar.telefono %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field concesionario_editar.fecha_apertura %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field concesionario_editar.descripcion %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field concesionario_editar.moto %}
+    </div>
+
+    <button type="submit">Enviar</button>
+
+</form>
+
+{%endblock%}

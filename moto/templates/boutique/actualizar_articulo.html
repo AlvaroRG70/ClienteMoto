@@ -1,0 +1,41 @@
+{% extends "principal.html" %}
+{% load bootstrap5 %}
+
+
+
+
+{%block contenido%}
+{% bootstrap_css %}
+<form action="{% url 'articulo_editar' articulo.id%}" method="POST">
+
+    {% csrf_token %}
+    
+    <div class="mb-4">
+        {% bootstrap_field articulo_editar.nombre %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field articulo_editar.tipo %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field articulo_editar.descripcion %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field articulo_editar.precio %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field articulo_editar.talla %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field articulo_editar.stock %}
+    </div>
+
+    <button type="submit">Enviar</button>
+
+</form>
+
+{%endblock%}

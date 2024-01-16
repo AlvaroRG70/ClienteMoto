@@ -1,0 +1,11 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Lista de concesionarios</h1>
+{% endblock cabecera %}
+
+{%block contenido%}
+    {% for concesionario in concesionario_lista %}
+        {% include "concesionario/concesionario.html" %}
+    {%endfor%}
+{%endblock%}

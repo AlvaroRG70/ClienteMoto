@@ -1,0 +1,25 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Concesionarios</h1>
+{% endblock cabecera %}
+
+{%block contenido%}
+{{texto}}
+        {% if object_list %}
+            {% for concesionario in object_list %}
+
+                {% include "concesionario/concesionario.html" %}
+                <a href="{% url 'concesionario_editar' concesionario.id %}">EDITAR</a>
+                <a href="{% url 'moto-concesionario-logic-delete' concesionario.id %}">ELIMINAR</a>
+             
+            {% endfor %}
+        {% else %}
+            <p>Lo sentimos no existen datos</p>
+        {% endif %}        
+
+
+{% block busqueda %}
+{% endblock %}
+
+{%endblock%}

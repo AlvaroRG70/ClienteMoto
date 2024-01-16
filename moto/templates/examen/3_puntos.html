@@ -1,0 +1,18 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Motos con puntuacion 3 por el usuario1</h1>
+{% endblock cabecera %}
+
+
+{%block contenido%}
+
+        {% for punto in 3_puntos %}
+            <h2>Usuario: {{ punto.usuario.nombre }}</h2>
+            <h2>Nombre: {{ punto.moto.nombre }}</h2>
+
+            <p>------------------------------------------------------------------</p>
+        {%empty%}
+            <h2>No existen motos con esa puntuacion</h2>
+        {% endfor %}
+{%endblock%}

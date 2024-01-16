@@ -1,0 +1,16 @@
+
+
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">motos de forma descendente</h1>
+{% endblock cabecera %}
+
+{%block contenido%}
+
+        {% for moto in motos_desc %}
+        
+            {% include "motos/moto.html" %}
+        
+        {% endfor %}
+{%endblock%}

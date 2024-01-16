@@ -1,0 +1,23 @@
+{% extends "principal.html" %}
+{% block cabecera %}
+    <h1 class="cabecera">Eventos por reserva ascendente</h1>
+{% endblock cabecera %}
+
+
+{%block contenido%}
+
+        {% for reserv in reserv_asc %}
+        
+            <div>
+                <h2>Nombre: {{reserv.evento.nombre}}</h2>
+                <h2>Fecha: {{reserv.evento.fecha|date:"d-m-Y"}}</h2>
+                <h2>Hora: {{reserv.evento.hora}}</h2>
+                <h2>Fecha Reserva: {{reserv.fecha.reserva_evento|date:"d-m-Y"}}</h2>
+                
+                <h2>Usuario: {{reserv.usuario.nombre}}</h2>
+                
+                <p>------------------------------------------------------------------</p>
+            </div>
+        
+        {% endfor %}
+{%endblock%}

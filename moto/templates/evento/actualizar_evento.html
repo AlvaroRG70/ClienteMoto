@@ -1,0 +1,39 @@
+{% extends "principal.html" %}
+{% load bootstrap5 %}
+
+
+{%block contenido%}
+{% bootstrap_css %}
+<form action="{% url 'formulario_editar' evento.id%}" method="POST">
+
+    {% csrf_token %}
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_editar.nombre %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_editar.fecha %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_editar.hora %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_editar.ubicacion %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_editar.descripcion %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario_editar.usuario %}
+    </div>
+
+    <button type="submit">Enviar</button>
+
+</form>
+
+{%endblock%}

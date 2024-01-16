@@ -1,0 +1,22 @@
+{% extends "principal.html" %}
+
+{% block cabecera %}
+    <h1 class="cabecera">Modelos de Moto con Media de Puntuación Mayor a 2.5</h1>
+{% endblock cabecera %}
+
+{%block contenido%}
+
+    <ul>
+        {% for modelo in motos %}
+            <li>Nombre: {{ modelo.nombre }}</li>
+            <li>Marca: {{ modelo.marca}}</li>
+            <li>Modelo: {{ modelo.modelo }}</li>
+            {%if modelo.media_puntuacion > 5 %}
+                <li>Media de Puntuación es mayor que 5: {{ modelo.media_puntuacion }}</li>
+    
+            {%else%}
+                <li> La media es menor que 5: {{ modelo.media_puntuacion }}</li>
+            {%endif%}
+            <p>---------------------------</p>
+        {% endfor %}
+{%endblock%}

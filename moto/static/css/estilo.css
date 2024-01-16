@@ -1,0 +1,134 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #EEEEEE;
+    margin-top: 70px;
+    font: caption;
+    
+}
+.imagen{
+    width: 300px;
+    height: auto;
+}
+
+
+
+.menu {
+    margin-top: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #222831;
+    color: white;
+    height: 70px;    
+
+
+}
+
+.menu > li {
+    width: 150px;
+    height: 70px;
+    padding-top: 22px;
+    color: #EEEEEE;
+    text-align: center;
+    position: relative;
+    list-style: none;
+    border-bottom: #222831;
+}
+
+.menu>li:hover {
+    
+    color: #00ADB5;
+    transition: all .1s;
+    border-bottom: solid #00ADB5 3px;
+    cursor: pointer;
+    
+}
+
+.submenu {
+    visibility: hidden;
+    list-style: none;
+    position: absolute;
+    background-color: #393E46;
+    width: 150px;
+    margin-top: 9px;
+
+}
+
+.menu li:hover .submenu {
+    visibility: visible;
+}
+
+.submenu li a{
+    display: block;
+    color: black;
+    color: #00ADB5;
+    margin-bottom: 5px;
+}
+
+.menu>li>span {
+    display: block;
+    padding-bottom: 21px;
+}
+
+
+.submenu li{
+    padding-top: 10px;
+}
+
+.enlacemenu{
+    text-decoration: none;
+    color: white;
+}
+
+
+
+.cabecera{
+    margin: 30px;
+    text-align: center;
+}
+
+
+
+
+
+footer {
+    display: grid;
+    grid-template-rows: 2fr 5fr;
+    grid-template-areas: 
+        "redes redes"
+        "direccion descripcion"
+    ;
+    margin-top: 50px;
+    background-color: #222831;
+    color: #EEEEEE;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    justify-content: space-evenly;
+    
+}
+
+
+.redes {
+    grid-area: redes;
+    margin: 20px;
+    text-align: center;
+
+}
+
+.direccion {
+    grid-area: direccion;
+    list-style: circle;
+    
+    
+
+}
+
+.descripcion {
+    grid-area: descripcion;
+    width: 400px;
+    
+}

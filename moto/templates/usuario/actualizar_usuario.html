@@ -1,0 +1,42 @@
+{% extends "principal.html" %}
+{% load bootstrap5 %}
+
+{%block contenido%}
+{% bootstrap_css %}
+<form action="{% url 'usuario_editar' usuario.id%}" method="POST">
+
+    {% csrf_token %}
+
+    <div class="mb-4">
+        {% bootstrap_field usuario_editar.nombre %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field usuario_editar.apellidos %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field usuario_editar.correo_electronico %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field usuario_editar.contraseña %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field usuario_editar.fecha_nacimiento %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field usuario_editar.fecha_registro %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field usuario_editar.preferencias %}
+    </div>
+
+    <button type="submit">Enviar</button>
+
+</form>
+
+{%endblock%}
