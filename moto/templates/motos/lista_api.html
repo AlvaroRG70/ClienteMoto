@@ -4,12 +4,16 @@
 <h1 class="row">Lista de Motos</h1>
     {% for moto in motos_mostrar%}
         <div class="col-sm mb-2">
-            <p>ID: {{moto.id}}</p>
+            
             <p>nombre: {{moto.nombre}}</p>
             <p>marca: {{moto.marca}}</p>
             <p>modelo: {{moto.modelo}}</p>
             <p>año: {{moto.año}}</p>
             <p>precio: {{moto.precio}}</p>
+    
+            {%for cliente in moto.usuario%}
+            <p>cliente: {{cliente.nombre}}</p>
+            {%endfor%}
             <p>----------------------------------------------------------</p>
 
         </div>

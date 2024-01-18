@@ -15,5 +15,10 @@ def motos_lista_api(request):
     motos = response.json()
     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
 
+def motos_lista_api(request):
+    response = requests.get('http://127.0.0.1:8000/api/v1/motos')
+    motos = response.json()
+    return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
+
 
 
