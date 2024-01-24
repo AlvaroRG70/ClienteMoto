@@ -1,0 +1,24 @@
+{%extends 'principal.html'%}
+{%block contenido%}
+
+<h1 class="row">Lista de Concesionarios</h1>
+    {% for conc in concesionarios_mostrar%}
+        <div class="col-sm mb-2">
+            
+            <p>nombre: {{conc.nombre}}</p>
+            <p>ubicacion: {{conc.ubicacion}}</p>
+            <p>telefono: {{conc.telefono}}</p>
+            <p>fecha_apertura: {{conc.fecha_apertura}}</p>
+            <p>descripcion: {{conc.descripcion}}</p>
+    
+            {%for moto in conc.moto%}
+            <p>Motos: {{moto.nombre}}</p>
+            {%endfor%}
+            <p>----------------------------------------------------------</p>
+
+        </div>
+    {% empty %}
+        <h1>Lo sentimos pero no hay motos</h1>
+    
+    {% endfor %}
+{%endblock%}
