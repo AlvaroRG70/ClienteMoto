@@ -7,6 +7,7 @@ urlpatterns = [
     path("motos/lista_conc", views.concesionarios_lista_api, name="concesionarios_mostrar"),
     path("motos/lista_eventos", views.eventos_lista_api, name="eventos_mostrar"),
     path('motos/buscar',views.moto_buscar_simple,name='moto_buscar'),
+    path('motos/buscar_avanzado',views.moto_busqueda_avanzada,name='moto_buscar_avanzado'),
 
 ]
 

@@ -17,7 +17,7 @@ def motos_lista_api(request):
 
 def motos_lista_api(request):
     
-    headers = {'Authorization': 'Bearer iOoL411h1OAgx14jRmgAebvcbPBmYt'}
+    headers = {'Authorization': 'Bearer 6WNHetQgFmklLuKrDipMBUJx3HTFBk'}
     response = requests.get('http://127.0.0.1:8000/api/v1/motos',  headers=headers)
     motos = response.json()
 
@@ -28,7 +28,7 @@ def motos_lista_api(request):
 
 def concesionarios_lista_api(request):
     
-    headers = {'Authorization': 'Bearer iOoL411h1OAgx14jRmgAebvcbPBmYt'}
+    headers = {'Authorization': 'Bearer 6WNHetQgFmklLuKrDipMBUJx3HTFBk'}
     response = requests.get('http://127.0.0.1:8000/api/v1/conc',  headers=headers)
     concesionarios = response.json()
  
@@ -37,7 +37,7 @@ def concesionarios_lista_api(request):
 
 def eventos_lista_api(request):
     
-    headers = {'Authorization': 'Bearer iOoL411h1OAgx14jRmgAebvcbPBmYt'}
+    headers = {'Authorization': 'Bearer 6WNHetQgFmklLuKrDipMBUJx3HTFBk'}
     response = requests.get('http://127.0.0.1:8000/api/v1/eventos',  headers=headers)
     eventos = response.json()
 
@@ -47,7 +47,7 @@ def eventos_lista_api(request):
 
 
 def crear_cabecera():
-    return {'Authorization': 'Bearer iOoL411h1OAgx14jRmgAebvcbPBmYt'}
+    return {'Authorization': 'Bearer 6WNHetQgFmklLuKrDipMBUJx3HTFBk'}
 
 
 def moto_buscar_simple(request):
@@ -70,5 +70,50 @@ def moto_buscar_simple(request):
     else:
         return redirect("index")
     
+
+from requests.exceptions import HTTPError
+def moto_busqueda_avanzada(request):
+    if(len(request.GET) > 0):
+        formulario = BusquedaAvanzadaMotoForm(request.GET)
+        
+        try:
+            headers = crear_cabecera()
+            response = requests.get(
+                'http://127.0.0.1:8000/api/v1/motos/busqueda_avanzada',
+                headers=headers,
+                params=formulario.data
+            )             
+            if(response.status_code == requests.codes.ok):
+                motos = response.json()
+                return render(request, 'motos/lista_api.html',
+                              {"motos_mostrar":motos})
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'motos/busqueda_avanzada_moto.html',
+                            {"formulario":formulario,"errores":errores})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+    else:
+        formulario = BusquedaAvanzadaMotoForm(None)
+    return render(request, 'motos/busqueda_avanzada_moto.html',{"formulario":formulario})
+
+#Páginas de Error
+def mi_error_404(request,exception=None):
+    return render(request, 'errores/404.html',None,None,404)
+
+#Páginas de Error
+def mi_error_500(request,exception=None):
+    return render(request, 'errores/500.html',None,None,500)
 
 
