@@ -5,6 +5,16 @@ from django.contrib import messages
 from datetime import datetime
 import requests
 from django.core import serializers
+from pathlib import Path
+
+import environ
+import os
+env = environ.Env()
+BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+
+
 
 # Create your views here.
 def index(request):
@@ -16,8 +26,8 @@ def motos_lista_api(request):
     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
 
 def motos_lista_api(request):
-    
-    headers = {'Authorization': 'Bearer 6WNHetQgFmklLuKrDipMBUJx3HTFBk'}
+    TOKEN =  env("TOKEN")
+    headers = {'Authorization': f'Bearer {TOKEN}'}
     response = requests.get('http://127.0.0.1:8000/api/v1/motos',  headers=headers)
     motos = response.json()
 
@@ -27,8 +37,9 @@ def motos_lista_api(request):
 
 
 def concesionarios_lista_api(request):
+    TOKEN =  env("TOKEN")
     
-    headers = {'Authorization': 'Bearer 6WNHetQgFmklLuKrDipMBUJx3HTFBk'}
+    headers = {'Authorization': f'Bearer {TOKEN}'}
     response = requests.get('http://127.0.0.1:8000/api/v1/conc',  headers=headers)
     concesionarios = response.json()
  
@@ -36,8 +47,9 @@ def concesionarios_lista_api(request):
 
 
 def eventos_lista_api(request):
+    TOKEN =  env("TOKEN")
     
-    headers = {'Authorization': 'Bearer 6WNHetQgFmklLuKrDipMBUJx3HTFBk'}
+    headers = {'Authorization': f'Bearer {TOKEN}'}
     response = requests.get('http://127.0.0.1:8000/api/v1/eventos',  headers=headers)
     eventos = response.json()
 
@@ -47,7 +59,8 @@ def eventos_lista_api(request):
 
 
 def crear_cabecera():
-    return {'Authorization': 'Bearer 6WNHetQgFmklLuKrDipMBUJx3HTFBk'}
+    TOKEN =  env("TOKEN")
+    return {'Authorization': f'Bearer {TOKEN}'}
 
 
 def moto_buscar_simple(request):
