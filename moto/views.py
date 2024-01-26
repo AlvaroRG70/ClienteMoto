@@ -20,14 +20,13 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 def index(request):
     return render(request, 'index.html')
 
-def motos_lista_api(request):
-    response = requests.get('http://127.0.0.1:8000/api/v1/motos')
-    motos = response.json()
-    return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
+# def motos_lista_api(request):
+#     response = requests.get('http://127.0.0.1:8000/api/v1/motos')
+#     motos = response.json()
+#     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
 
 def motos_lista_api(request):
-    TOKEN =  env("TOKEN")
-    headers = {'Authorization': f'Bearer {TOKEN}'}
+    headers = crear_cabecera()
     response = requests.get('http://127.0.0.1:8000/api/v1/motos',  headers=headers)
     motos = response.json()
 
