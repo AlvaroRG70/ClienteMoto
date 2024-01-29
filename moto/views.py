@@ -21,20 +21,20 @@ def index(request):
     return render(request, 'index.html')
 
 # def motos_lista_api(request):
-#     response = requests.get('http://alvaroClase.pythonanywhere.com/api/v1/motos')
+#     response = requests.get('http://127.0.0.1:8000/api/v1/motos')
 #     motos = response.json()
 #     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
 
 
 def crear_cabecera():
-    TOKEN =  env("TOKEN_JWT")
+    TOKEN =  env("TOKEN")
     return {'Authorization': f'Bearer {TOKEN}'}
 
 def motos_lista_api(request):
     
     
     headers = crear_cabecera()
-    response = requests.get('http://alvaroClase.pythonanywhere.com/api/v1/motos',  headers=headers)
+    response = requests.get('http://127.0.0.1:8000/api/v1/motos',  headers=headers)
     motos = response.json()
 
     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
@@ -44,7 +44,7 @@ def concesionarios_lista_api(request):
     TOKEN =  env("TOKEN")
     
     headers = {'Authorization': f'Bearer {TOKEN}'}
-    response = requests.get('http://alvaroClase.pythonanywhere.com/api/v1/conc',  headers=headers)
+    response = requests.get('http://127.0.0.1:8000/api/v1/conc',  headers=headers)
     concesionarios = response.json()
  
     return render(request, 'motos/lista_concesionarios.html',{'concesionarios_mostrar':concesionarios})
@@ -54,7 +54,7 @@ def eventos_lista_api(request):
     TOKEN =  env("TOKEN")
     
     headers = {'Authorization': f'Bearer {TOKEN}'}
-    response = requests.get('http://alvaroClase.pythonanywhere.com/api/v1/eventos',  headers=headers)
+    response = requests.get('http://127.0.0.1:8000/api/v1/eventos',  headers=headers)
     eventos = response.json()
 
     return render(request, 'motos/lista_eventos.html',{'eventos_mostrar':eventos})
@@ -72,7 +72,7 @@ def moto_buscar_simple(request):
     if formulario.is_valid():
         headers = crear_cabecera()
         response = requests.get(
-            'http://alvaroClase.pythonanywhere.com/api/v1/motos/busqueda_simple',  
+            'http://127.0.0.1:8000/api/v1/motos/busqueda_simple',  
             headers=headers,
             params=formulario.cleaned_data
         )
@@ -94,7 +94,7 @@ def moto_busqueda_avanzada(request):
         try:
             headers = crear_cabecera()
             response = requests.get(
-                'http://alvaroClase.pythonanywhere.com/api/v1/motos/busqueda_avanzada',
+                'http://127.0.0.1:8000/api/v1/motos/busqueda_avanzada',
                 headers=headers,
                 params=formulario.data
             )             
