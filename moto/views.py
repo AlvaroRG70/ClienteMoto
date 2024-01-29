@@ -25,14 +25,19 @@ def index(request):
 #     motos = response.json()
 #     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
 
+
+def crear_cabecera():
+    TOKEN =  env("TOKEN_JWT")
+    return {'Authorization': f'Bearer {TOKEN}'}
+
 def motos_lista_api(request):
+    
+    
     headers = crear_cabecera()
     response = requests.get('http://127.0.0.1:8000/api/v1/motos',  headers=headers)
     motos = response.json()
 
     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
-
-
 
 
 def concesionarios_lista_api(request):
@@ -57,9 +62,7 @@ def eventos_lista_api(request):
 
 
 
-def crear_cabecera():
-    TOKEN =  env("TOKEN")
-    return {'Authorization': f'Bearer {TOKEN}'}
+
 
 
 def moto_buscar_simple(request):
