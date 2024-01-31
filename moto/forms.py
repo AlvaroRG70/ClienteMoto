@@ -32,3 +32,12 @@ class BusquedaAvanzadaMotoForm(forms.Form):
                                )
     anyo = forms.IntegerField(required=False)
     precio = forms.IntegerField(required=False)
+    
+    
+class BusquedaAvanzadaConcesionarioForm(forms.Form):
+    textoBusqueda = forms.CharField(required=False)
+    telefono = forms.IntegerField(required=False)
+
+
+class BusquedaAvanzadaEventoForm(forms.Form):
+    textoBusqueda = forms.CharField(required=False)
