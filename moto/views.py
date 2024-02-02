@@ -6,6 +6,8 @@ from datetime import datetime
 import requests
 from django.core import serializers
 from pathlib import Path
+import json
+import xml.etree.ElementTree as ET
 
 import environ
 import os
@@ -16,26 +18,72 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 
+
+
+
+
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
 # def motos_lista_api(request):
 #     response = requests.get('http://127.0.0.1:8000/api/v1/motos')
-#     motos = response.json()
+#     motos = parse_response(response)
 #     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
+
+
+def parse_response(response):
+    content_type = response.headers.get('Content-Type', '')
+    
+    if 'application/json' in content_type:
+        return response.json()
+    elif 'application/xml' in content_type:
+        xml_data = response.content
+        root = ET.fromstring(xml_data)
+        return xml_to_dict(root)
+    elif 'text/html' in content_type:
+        # Manejar HTML si es necesario
+        return response.text
+    else:
+        # Otros tipos de contenido
+        return response.content
+
+
+def xml_to_dict(xml_element):
+    data = {}
+    for child in xml_element:
+        if child.tag in data:
+            if isinstance(data[child.tag], list):
+                data[child.tag].append(xml_to_dict(child))
+            else:
+                data[child.tag] = [data[child.tag], xml_to_dict(child)]
+        else:
+            data[child.tag] = xml_to_dict(child) if len(child) > 0 else child.text
+    return data
+
+
 
 
 def crear_cabecera():
     TOKEN =  env("TOKEN_OAUTH")
     return {'Authorization': f'Bearer {TOKEN}'}
 
+#creamos una variable en el .env para ahorrarnos el poner la ruta y la versión en todos los lados si cambia
+
+
+def crear_dominio():
+    TOKEN =  env("RUTA")
+    return TOKEN
+
+def crear_version():
+    TOKEN =  env("VERSION")
+    return TOKEN
+
 def motos_lista_api(request):
     
-    
     headers = crear_cabecera()
-    response = requests.get('http://127.0.0.1:8000/api/v1/motos',  headers=headers)
-    motos = response.json()
+    response = requests.get(crear_dominio() + crear_version() +'motos',  headers=headers)
+    motos = parse_response(response)
 
     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
 
@@ -43,8 +91,8 @@ def motos_lista_api(request):
 def concesionarios_lista_api(request):
     
     headers = crear_cabecera()
-    response = requests.get('http://127.0.0.1:8000/api/v1/conc',  headers=headers)
-    concesionarios = response.json()
+    response = requests.get(crear_dominio() + crear_version() +'conc',  headers=headers)
+    concesionarios = parse_response(response)
  
     return render(request, 'motos/lista_concesionarios.html',{'concesionarios_mostrar':concesionarios})
 
@@ -52,8 +100,8 @@ def concesionarios_lista_api(request):
 def eventos_lista_api(request):
      
     headers = crear_cabecera()
-    response = requests.get('http://127.0.0.1:8000/api/v1/eventos',  headers=headers)
-    eventos = response.json()
+    response = requests.get(crear_dominio() + crear_version() +'eventos',  headers=headers)
+    eventos = parse_response(response)
 
     return render(request, 'motos/lista_eventos.html',{'eventos_mostrar':eventos})
 
@@ -70,12 +118,12 @@ def moto_buscar_simple(request):
     if formulario.is_valid():
         headers = crear_cabecera()
         response = requests.get(
-            'http://127.0.0.1:8000/api/v1/motos/busqueda_simple',  
+            crear_dominio() + crear_version() +'motos/busqueda_simple',  
             headers=headers,
             params=formulario.cleaned_data
         )
         
-        motos = response.json()
+        motos = parse_response(response)
         print(motos)
         return render(request, 'motos/lista_api.html',{"motos_mostrar":motos})
     if("HTTP_REFERER" in request.META):
@@ -92,12 +140,12 @@ def moto_busqueda_avanzada(request):
         try:
             headers = crear_cabecera()
             response = requests.get(
-                'http://127.0.0.1:8000/api/v1/motos/busqueda_avanzada',
+                crear_dominio() + crear_version() +'motos/busqueda_avanzada',
                 headers=headers,
                 params=formulario.data
             )             
             if(response.status_code == requests.codes.ok):
-                motos = response.json()
+                motos = parse_response(response)
                 return render(request, 'motos/lista_api.html',
                               {"motos_mostrar":motos})
             else:
@@ -106,7 +154,7 @@ def moto_busqueda_avanzada(request):
         except HTTPError as http_err:
             print(f'Hubo un error en la petición: {http_err}')
             if(response.status_code == 400):
-                errores = response.json()
+                errores = parse_response(response)
                 for error in errores:
                     formulario.add_error(error,errores[error])
                 return render(request, 
@@ -132,12 +180,12 @@ def concesionario_busqueda_avanzada(request):
         try:
             headers = crear_cabecera()
             response = requests.get(
-                'http://127.0.0.1:8000/api/v1/concesionario/busqueda_avanzada',
+                crear_dominio() + crear_version() +'concesionario/busqueda_avanzada',
                 headers=headers,
                 params=formulario.data
             )             
             if(response.status_code == requests.codes.ok):
-                concesionarios = response.json()
+                concesionarios = parse_response(response)
                 return render(request, 'motos/lista_concesionarios.html',
                               {"concesionarios_mostrar":concesionarios})
             else:
@@ -146,7 +194,7 @@ def concesionario_busqueda_avanzada(request):
         except HTTPError as http_err:
             print(f'Hubo un error en la petición: {http_err}')
             if(response.status_code == 400):
-                errores = response.json()
+                errores = parse_response(response)
                 for error in errores:
                     formulario.add_error(error,errores[error])
                 return render(request, 
@@ -169,12 +217,12 @@ def evento_busqueda_avanzada(request):
         try:
             headers = crear_cabecera()
             response = requests.get(
-                'http://127.0.0.1:8000/api/v1/evento/busqueda_avanzada',
+                crear_dominio() + crear_version() +'evento/busqueda_avanzada',
                 headers=headers,
                 params=formulario.data
             )             
             if(response.status_code == requests.codes.ok):
-                eventos = response.json()
+                eventos = parse_response(response)
                 return render(request, 'motos/lista_eventos.html',
                               {"eventos_mostrar":eventos})
             else:
@@ -183,7 +231,7 @@ def evento_busqueda_avanzada(request):
         except HTTPError as http_err:
             print(f'Hubo un error en la petición: {http_err}')
             if(response.status_code == 400):
-                errores = response.json()
+                errores = parse_response(response)
                 for error in errores:
                     formulario.add_error(error,errores[error])
                 return render(request, 
