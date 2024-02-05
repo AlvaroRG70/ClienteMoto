@@ -2,12 +2,16 @@
 {% load bootstrap5 %}
 
 
+
+
 {%block contenido%}
 {% bootstrap_css %}
-<form action="{% url 'motos_editar' moto.id%}" method="POST">
+<form action="{% url 'motos_crear' %}" method="POST">
 
     {% csrf_token %}
-
+<!--
+    {% bootstrap_form formulario %}
+-->
     <div class="mb-4">
         {% bootstrap_field formulario.nombre %}
     </div>
@@ -29,8 +33,9 @@
     </div>
 
     <div class="mb-4">
-        {% bootstrap_field formulario.usuario %}
+        {% bootstrap_field formulario.usuarios %}
     </div>
+
 
     <button type="submit">Enviar</button>
 

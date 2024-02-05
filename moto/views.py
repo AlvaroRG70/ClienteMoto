@@ -258,3 +258,89 @@ def mi_error_500(request,exception=None):
     return render(request, 'errores/500.html',None,None,500)
 
 
+def moto_crear(request):
+    
+    if (request.method == "POST"):
+        try:
+            formulario = MotoForm(request.POST)
+            headers =  {
+                        'Authorization': 'Bearer '+env("TOKEN_OAUTH"),
+                        "Content-Type": "application/json" 
+                    } 
+            datos = formulario.data.copy()
+            datos["usuarios"] = request.POST.getlist("usuariosDisponibles")
+            
+            response = requests.post(
+                'http://127.0.0.1:8000/api/v1/motos/crear',
+                headers=headers,
+                data=json.dumps(datos)
+            )
+            if(response.status_code == requests.codes.ok):
+                return redirect("motos_mostrar")
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'motos/create_moto.html',
+                            {"formulario":formulario})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+        
+    else:
+         formulario = MotoForm(None)
+    return render(request, 'motos/create_moto.html',{"formulario":formulario})
+
+
+def moto_editar_nombre(request,moto_id):
+   
+    datosFormulario = None
+    
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    moto = helper.obtener_moto(moto_id)
+    formulario = MotoActualizarNombreForm(datosFormulario,
+            initial={
+                'nombre': moto['nombre'],
+                
+            }
+    )
+    if (request.method == "POST"):
+        try:
+            formulario = MotoForm(request.POST)
+            headers = crear_cabecera()
+            datos = request.POST.copy()
+            response = requests.patch(
+                'http://127.0.0.1:8000/api/v1/motos/actualizar/nombre/'+str(moto_id),
+                headers=headers,
+                data=json.dumps(datos)
+            )
+            if(response.status_code == requests.codes.ok):
+                return redirect("motos_mostrar",moto_id=moto_id)
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'motos/actualizar_moto.html',
+                            {"formulario":formulario,"moto":moto})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+    return render(request, 'motos/actualizar_moto.html',{"formulario":formulario,"moto":moto})
