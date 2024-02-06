@@ -4,8 +4,9 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'),True)
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 
 class helper:
 
@@ -20,10 +21,25 @@ class helper:
             lista_usuarios.append((usuario["id"], usuario["nombre"]))  # Acceder a cada usuario individualmente
         return lista_usuarios
     
+    def obtener_motos_select():
+
+        headers = {'Authorization': 'Bearer ' + env("TOKEN_OAUTH")}
+        response = requests.get('http://127.0.0.1:8000/api/v1/usuarios', headers=headers)
+        motos = response.json()
+
+        lista_motos = [("","Ninguna")]
+        for moto in motos:
+            lista_motos.append((moto["id"], moto["nombre"]))
+        return lista_motos
+    
     def obtener_moto(id):
          # obtenemos todos los libros
         headers = {'Authorization': 'Bearer '+env("TOKEN_OAUTH")} 
         response = requests.get('http://127.0.0.1:8000/api/v1/motos/'+str(id),headers=headers)
+        print(response)
         moto = response.json()
+        print('alli')
+        print(moto)
+        print('aqui')
         return moto
 

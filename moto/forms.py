@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from datetime import date
+import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.forms import UserCreationForm
 from .helper import helper
@@ -122,3 +123,39 @@ class MotoActualizarNombreForm(forms.Form):
     marca = forms.ChoiceField(choices=MARCA,
                                initial="KA")
     
+
+
+class ConcesionarioForm(forms.Form):
+    nombre = forms.CharField(label="Nombre del Concesionario",
+                             required=True, 
+                             max_length=200,
+                             help_text="200 caracteres como máximo")
+    
+    ubicacion = forms.CharField(label="Ubicacion",
+                                  required=False,
+                                  widget=forms.Textarea())
+    
+    descripcion = forms.CharField(label="Descripcion",
+                                  required=False,
+                                  widget=forms.Textarea())
+    
+    
+    
+    
+    telefono = forms.IntegerField()
+    
+    fecha_apertura = forms.DateField(label="Fecha Apertura",
+                                        initial=datetime.date.today,
+                                        widget= forms.SelectDateWidget(years=range(1990,2025))
+                                        )
+    
+    def __init__(self, *args, **kwargs):
+    
+        super(ConcesionarioForm, self).__init__(*args, **kwargs)
+        
+        motosDisponibles = helper.obtener_motos_select()
+        self.fields["motos"] = forms.ChoiceField(
+            choices=motosDisponibles,
+            widget=forms.Select,
+            required=True,
+        )

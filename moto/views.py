@@ -300,7 +300,7 @@ def moto_crear(request):
     return render(request, 'motos/create_moto.html',{"formulario":formulario})
 
 
-def moto_editar_nombre(request,moto_id):
+def moto_editar(request,moto_id):
    
     datosFormulario = None
     
@@ -319,8 +319,8 @@ def moto_editar_nombre(request,moto_id):
             formulario = MotoForm(request.POST)
             headers = crear_cabecera()
             datos = request.POST.copy()
-            response = requests.patch(
-                'http://127.0.0.1:8000/api/v1/motos/actualizar/nombre/'+str(moto_id),
+            response = requests.put(
+                'http://127.0.0.1:8000/api/v1/motos/editar/'+str(moto_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -344,3 +344,49 @@ def moto_editar_nombre(request,moto_id):
             print(f'Ocurrió un error: {err}')
             return mi_error_500(request)
     return render(request, 'motos/actualizar_moto.html',{"formulario":formulario,"moto":moto})
+
+
+
+def concesionario_crear(request):
+    
+    if (request.method == "POST"):
+        try:
+            formulario = ConcesionarioForm(request.POST)
+            headers =  {
+                        'Authorization': 'Bearer '+env("TOKEN_OAUTH"),
+                        "Content-Type": "application/json" 
+                    } 
+            datos = formulario.data.copy()
+            datos["motos"] = request.POST.getlist("motosDisponibles")
+            datos["fecha_apertura"] = str(date(year=int(datos['fecha_apertura_year']),
+                                                        month=int(datos['fecha_apertura_month']),
+                                                        day=int(datos['fecha_apertura_day'])))
+            
+            response = requests.post(
+                'http://127.0.0.1:8000/api/v1/concesionario/crear',
+                headers=headers,
+                data=json.dumps(datos)
+            )
+            if(response.status_code == requests.codes.ok):
+                return redirect("concesionarios_mostrar")
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'motos/create_concesionario.html',
+                            {"formulario":formulario})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+        
+    else:
+         formulario = ConcesionarioForm(None)
+    return render(request, 'motos/create_concesionario.html',{"formulario":formulario})
