@@ -1,0 +1,44 @@
+{% extends "principal.html" %}
+{% load bootstrap5 %}
+
+
+
+
+{%block contenido%}
+{% bootstrap_css %}
+<form action="{% url 'eventos_crear' %}" method="POST">
+
+    {% csrf_token %}
+<!--
+    {% bootstrap_form formulario %}
+-->
+    <div class="mb-4">
+        {% bootstrap_field formulario.nombre %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario.ubicacion %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario.hora %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario.fecha %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario.descripcion %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario.usuarios %}
+    </div>
+
+
+    <button type="submit">Enviar</button>
+
+</form>
+
+{%endblock%}

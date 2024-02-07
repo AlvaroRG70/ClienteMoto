@@ -14,7 +14,9 @@
             {%for moto in evento.usuario%}
             <p>Motos: {{moto.nombre}}</p>
             {%endfor%}
+            <a href="{% url 'evento_eliminar' evento.id %}">Eliminar</a>
             <p>----------------------------------------------------------</p>
+            
 
         </div>
     {% empty %}

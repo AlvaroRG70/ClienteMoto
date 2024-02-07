@@ -15,6 +15,9 @@
             <p>cliente: {{cliente.nombre}}</p>
             {%endfor%}
             <a href="{% url 'motos_editar' moto.id %}">Editar</a>
+            <a href="{% url 'motos_editar_nombre' moto.id %}">Editar Nomb</a>
+            <a href="{% url 'moto_eliminar' moto.id %}">Eliminar</a>
+
             <p>----------------------------------------------------------</p>
 
         </div>

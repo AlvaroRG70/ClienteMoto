@@ -10,12 +10,20 @@ urlpatterns = [
     path('motos/buscar_avanzado',views.moto_busqueda_avanzada,name='moto_buscar_avanzado'),
     path('concesionario/buscar_avanzado_conc',views.concesionario_busqueda_avanzada,name='concesionario_buscar_avanzado'),
     path('evento/buscar_avanzado_evento',views.evento_busqueda_avanzada,name='evento_buscar_avanzado'),
+    
     path('moto/crear_moto',views.moto_crear,name='motos_crear'),
     path('moto/editar_moto/<int:moto_id>',views.moto_editar,name='motos_editar'),
+    path('moto/editar/nombre/<int:moto_id>',views.moto_editar_nombre,name='motos_editar_nombre'),
+    path('moto/eliminar/<int:moto_id>',views.moto_eliminar,name='moto_eliminar'),
+    
     path('concesionario/crear_concesionario',views.concesionario_crear,name='concesionarios_crear'),
+    path('concesionario/editar_concesionario<int:concesionario_id>',views.concesionario_editar,name='concesionarios_editar'),
+    path('concesionario/eliminar/<int:concesionario_id>',views.concesionario_eliminar,name='concesionario_eliminar'),
+    
+    path('evento/crear',views.evento_crear,name='eventos_crear'),
+    path('evento/eliminar/<int:evento_id>',views.evento_eliminar,name='evento_eliminar'),
     
     
     
-
 ]
 

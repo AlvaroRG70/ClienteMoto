@@ -97,31 +97,6 @@ class MotoActualizarNombreForm(forms.Form):
                              max_length=200,
                              help_text="200 caracteres como máximo")
     
-    descripcion = forms.CharField(label="Descripcion",
-                                  required=False,
-                                  widget=forms.Textarea())
-    
-    modelo = forms.CharField(label="Nombre del modelo",
-                             required=True, 
-                             max_length=200,
-                             help_text="200 caracteres como máximo")
-    
-    año = forms.IntegerField()
-    
-    precio = forms.DecimalField(label="Precio", max_digits=5, decimal_places=2, required=False)
-    
-    MARCA = [
-        ("KA","Kawasaki"),
-        ("YA","Yamaha"),
-        ("DU","Ducati"),
-        ("HO","Honda"),
-        ("BM","BMW"),
-        ("TR","Triumph"),
-        ("SZ","Suzuki"),
-        ("KT","KTM"),
-    ]
-    marca = forms.ChoiceField(choices=MARCA,
-                               initial="KA")
     
 
 
@@ -156,6 +131,43 @@ class ConcesionarioForm(forms.Form):
         motosDisponibles = helper.obtener_motos_select()
         self.fields["motos"] = forms.ChoiceField(
             choices=motosDisponibles,
+            widget=forms.Select,
+            required=True,
+        )
+        
+
+
+class EventoForm(forms.Form):
+    nombre = forms.CharField(label="Nombre del Evento",
+                             required=True, 
+                             max_length=200,
+                             help_text="200 caracteres como máximo")
+    
+    ubicacion = forms.CharField(label="Ubicacion",
+                                  required=False,
+                                  widget=forms.Textarea())
+    
+    descripcion = forms.CharField(label="Descripcion",
+                                  required=False,
+                                  widget=forms.Textarea())
+    
+    
+    
+    
+    hora = forms.TimeField(label="Hora del Evento", required=True, widget=forms.TimeInput(attrs={'type': 'time'}))
+    
+    fecha= forms.DateField(label="Fecha",
+                                        initial=datetime.date.today,
+                                        widget= forms.SelectDateWidget(years=range(1990,2025))
+                                        )
+    
+    def __init__(self, *args, **kwargs):
+    
+        super(EventoForm, self).__init__(*args, **kwargs)
+        
+        usuariosDisponibles = helper.obtener_usuarios_select()
+        self.fields["usuarios"] = forms.ChoiceField(
+            choices=usuariosDisponibles,
             widget=forms.Select,
             required=True,
         )
