@@ -15,7 +15,7 @@
             <p>Motos: {{moto.nombre}}</p>
             {%endfor%}
             <a href="{% url 'concesionarios_editar' conc.id %}">Editar</a>
-
+            <a href="{% url 'concesionarios_editar_nombre' conc.id %}">Editar Nombre</a>
             <a href="{% url 'concesionario_eliminar' conc.id %}">Eliminar</a>
             <p>----------------------------------------------------------</p>
 

@@ -134,7 +134,13 @@ class ConcesionarioForm(forms.Form):
             widget=forms.Select,
             required=True,
         )
-        
+
+
+class ConcesionarioActualizarNombreForm(forms.Form):
+    nombre = forms.CharField(label="Nombre de Concesionario",
+                             required=True, 
+                             max_length=200,
+                             help_text="200 caracteres como máximo")
 
 
 class EventoForm(forms.Form):

@@ -325,15 +325,14 @@ def moto_editar(request,moto_id):
             formulario = MotoForm(request.POST)
             headers = crear_cabecera()
             datos = request.POST.copy()
-            datos["usuarios"] = request.POST.getlist("usuarios")
-            
+            datos["usuarios"] = request.POST.getlist("usuarios")             
             response = requests.put(
-                'http://10/api/v1/motos/editar/'+str(moto_id),
+                'http://127.0.0.1:8000/api/v1/motos/editar/'+str(moto_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
-                return redirect("motos_mostrar",moto_id=moto_id)
+                return redirect("motos_mostrar")#,moto_id=moto_id
             else:
                 print(response.status_code)
                 response.raise_for_status()
@@ -378,7 +377,7 @@ def moto_editar_nombre(request,moto_id):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
-                return redirect("motos_mostrar",moto_id=moto_id)
+                return redirect("motos_mostrar")
             else:
                 print(response.status_code)
                 response.raise_for_status()
@@ -477,7 +476,7 @@ def concesionario_editar(request,concesionario_id):
                 'descripcion': concesionario['descripcion'],
                 'ubicacion': concesionario['ubicacion'],
                 'telefono': concesionario['telefono'],
-                'fecha_apertura': concesionario['fecha_apertura'],
+                'fecha_apertura': datetime.strptime(concesionario['fecha_apertura'], '%Y-%m-%d').date(),
                 
             }
     )
@@ -486,15 +485,18 @@ def concesionario_editar(request,concesionario_id):
             formulario = ConcesionarioForm(request.POST)
             headers = crear_cabecera()
             datos = request.POST.copy()
-   
+              
+            datos["fecha_apertura"] = str(date(year=int(datos['fecha_apertura_year']),
+                                                        month=int(datos['fecha_apertura_month']),
+                                                        day=int(datos['fecha_apertura_day'])))
             
             response = requests.put(
-                '   '+str(concesionario_id),
+                'http://127.0.0.1:8000/api/v1/concesionario/editar/'+str(concesionario_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
-                return redirect("concesionarios_mostrar",concesionario_id=concesionario_id)
+                return redirect("concesionarios_mostrar")
             else:
                 print(response.status_code)
                 response.raise_for_status()
@@ -513,6 +515,52 @@ def concesionario_editar(request,concesionario_id):
             print(f'Ocurrió un error: {err}')
             return mi_error_500(request)
     return render(request, 'motos/actualizar_concesionario.html',{"formulario":formulario,"concesionario":concesionario})
+
+
+
+def concesionario_editar_nombre(request,concesionario_id):
+   
+    datosFormulario = None
+    
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    concesionario = helper.obtener_concesionario(concesionario_id)
+    formulario = ConcesionarioActualizarNombreForm(datosFormulario,
+            initial={
+                'nombre': concesionario['nombre'],
+            }
+    )
+    if (request.method == "POST"):
+        try:
+            formulario = ConcesionarioForm(request.POST)
+            headers = crear_cabecera()
+            datos = request.POST.copy()
+            response = requests.patch(
+                'http://127.0.0.1:8000/api/v1/concesionario/editar/nombre/'+str(concesionario_id),
+                headers=headers,
+                data=json.dumps(datos)
+            )
+            if(response.status_code == requests.codes.ok):
+                return redirect("concesionarios_mostrar")
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'motos/actualizar_nombre_concesionario.html',
+                            {"formulario":formulario,"concesionario":concesionario})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+    return render(request, 'motos/actualizar_nombre_concesionario.html',{"formulario":formulario,"concesionario":concesionario})
 
 
 
@@ -579,6 +627,62 @@ def evento_crear(request):
     else:
          formulario = EventoForm(None)
     return render(request, 'motos/create_evento.html',{"formulario":formulario})
+
+
+def evento_editar(request,evento_id):
+   
+    datosFormulario = None
+    
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    evento = helper.obtener_evento(evento_id)
+    formulario = EventoForm(datosFormulario,
+            initial={
+                'nombre': evento['nombre'],
+                'descripcion': evento['descripcion'],
+                'ubicacion': evento['ubicacion'],
+                'hora': evento['hora'],
+                'fecha': datetime.strptime(evento['fecha'], '%Y-%m-%d').date(),
+                
+            }
+    )
+    
+    if (request.method == "POST"):
+        try:
+            formulario = EventoForm(request.POST)
+            headers = crear_cabecera()
+            datos = request.POST.copy()
+              
+            datos["fecha"] = str(date(year=int(datos['fecha_year']),
+                                                        month=int(datos['fecha_month']),
+                                                        day=int(datos['fecha_day'])))
+            
+            response = requests.put(
+                'http://127.0.0.1:8000/api/v1/evento/editar/'+str(evento_id),
+                headers=headers,
+                data=json.dumps(datos)
+            )
+            if(response.status_code == requests.codes.ok):
+                return redirect("eventos_mostrar")
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'motos/actualizar_evento.html',
+                            {"formulario":formulario,"evento":evento})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+    return render(request, 'motos/actualizar_evento.html',{"formulario":formulario,"evento":evento})
 
 
 def evento_eliminar(request,evento_id):

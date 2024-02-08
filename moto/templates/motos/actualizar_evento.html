@@ -2,12 +2,16 @@
 {% load bootstrap5 %}
 
 
+
+
 {%block contenido%}
 {% bootstrap_css %}
-<form action="{% url 'concesionarios_editar' concesionario.id%}" method="POST">
+<form action="{% url 'eventos_crear' %}" method="POST">
 
     {% csrf_token %}
-
+<!--
+    {% bootstrap_form formulario %}
+-->
     <div class="mb-4">
         {% bootstrap_field formulario.nombre %}
     </div>
@@ -17,26 +21,23 @@
     </div>
 
     <div class="mb-4">
-        {% bootstrap_field formulario.telefono %}
+        {% bootstrap_field formulario.hora %}
     </div>
 
-    {% bootstrap_field formulario.fecha_apertura show_label=True %}
-        <div class="invalid-feedback">
-            {% for error in formulario.fecha_apertura.errors %} 
-                {{ error }}
-            {% endfor %}
-        </div>
+    <div class="mb-4">
+        {% bootstrap_field formulario.fecha %}
+    </div>
 
     <div class="mb-4">
         {% bootstrap_field formulario.descripcion %}
     </div>
 
     <div class="mb-4">
-        {% bootstrap_field formulario.motos %}
+        {% bootstrap_field formulario.usuarios %}
     </div>
 
-    <button type="submit">Enviar</button>
 
+    <button type="submit">Enviar</button>
 
 </form>
 

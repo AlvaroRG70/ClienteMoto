@@ -1,0 +1,19 @@
+{% extends "principal.html" %}
+{% load bootstrap5 %}
+
+
+{%block contenido%}
+{% bootstrap_css %}
+<form action="{% url 'concesionarios_editar_nombre' concesionario.id%}" method="POST">
+
+    {% csrf_token %}
+
+    <div class="mb-4">
+        {% bootstrap_field formulario.nombre %}
+    </div>
+
+    <button type="submit">Enviar</button>
+
+</form>
+
+{%endblock%}

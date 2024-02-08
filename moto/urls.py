@@ -17,13 +17,13 @@ urlpatterns = [
     path('moto/eliminar/<int:moto_id>',views.moto_eliminar,name='moto_eliminar'),
     
     path('concesionario/crear_concesionario',views.concesionario_crear,name='concesionarios_crear'),
-    path('concesionario/editar_concesionario<int:concesionario_id>',views.concesionario_editar,name='concesionarios_editar'),
+    path('concesionario/editar_concesionario/<int:concesionario_id>',views.concesionario_editar,name='concesionarios_editar'),
+    path('concesionario/editar/nombre/<int:concesionario_id>',views.concesionario_editar_nombre,name='concesionarios_editar_nombre'),
     path('concesionario/eliminar/<int:concesionario_id>',views.concesionario_eliminar,name='concesionario_eliminar'),
     
     path('evento/crear',views.evento_crear,name='eventos_crear'),
+    path('evento/editar_evento/<int:evento_id>',views.evento_editar,name='evento_editar'),
     path('evento/eliminar/<int:evento_id>',views.evento_eliminar,name='evento_eliminar'),
-    
-    
     
 ]
 
