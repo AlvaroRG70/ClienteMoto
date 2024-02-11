@@ -1,6 +1,8 @@
 {% extends "principal.html" %}
-{% block contenido %}
 {% load bootstrap5 %}
+
+{% block contenido %}
+{% bootstrap_css %}
     <form action = "{% url 'evento_buscar_avanzado' %}" method = "GET"> 
         
         {% csrf_token %}

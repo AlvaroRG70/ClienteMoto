@@ -5,8 +5,16 @@
 
 
 {%block contenido%}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-0 mt-5" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
 {% bootstrap_css %}
-<form action="{% url 'eventos_crear' %}" method="POST">
+<form action="{% url 'evento_editar' evento.id %}" method="POST">
 
     {% csrf_token %}
 <!--

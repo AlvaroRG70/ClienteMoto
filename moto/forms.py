@@ -177,3 +177,9 @@ class EventoForm(forms.Form):
             widget=forms.Select,
             required=True,
         )
+        
+class EventoActualizarNombreForm(forms.Form):
+    nombre = forms.CharField(label="Nombre del Evento",
+                             required=True, 
+                             max_length=200,
+                             help_text="200 caracteres como máximo")

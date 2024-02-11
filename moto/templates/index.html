@@ -1,8 +1,12 @@
 {% extends "principal.html" %}
 {% load static %}
 
+{% load bootstrap5 %}
+
+
 
 {% block cabecera %}
+{% bootstrap_css %}
     <h1>Tienda de Motos</h1>
     <img src="{% static "imagenes/fotomoto.webp" %}" alt="Imagen de Moto" class="imagen">
 {% endblock cabecera %}
