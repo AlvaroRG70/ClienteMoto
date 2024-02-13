@@ -25,5 +25,11 @@ urlpatterns = [
     path('evento/editar_evento/<int:evento_id>',views.evento_editar,name='evento_editar'),
     path('evento/eliminar/<int:evento_id>',views.evento_eliminar,name='evento_eliminar'),
     
+    #login
+    path('registrar',views.registrar_usuario,name='registrar_usuario'),
+    path('login',views.login,name='login'),
+    path('logout',views.logout,name='logout'),
+    
+    
 ]
 

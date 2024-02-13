@@ -24,6 +24,26 @@
                 <button class="btn btn-light btn-outline-dark" type="submit">Search</button>
             </form>
         </li>
+
+        <div class="ml-2">
+            {% if not request.session.token%}
+            <a class="btn btn-outline-warning" href="{% url 'login' %}">
+                Login
+            </a>
+            {% endif %}
+    
+            {% if not request.session.token %}
+              <a class="btn btn-outline-warning" href="{% url 'registrar_usuario' %}">
+                  Registrarse
+              </a>
+             {% endif %}
+    
+             {% if request.session.token %}
+             <a class="btn btn-outline-warning" href="{% url 'logout' %}">
+                 Desconectarse
+             </a>
+            {% endif %}
+          </div>
         
             
     </ul>

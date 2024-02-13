@@ -5,6 +5,8 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.forms import UserCreationForm
 from .helper import helper
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 
 
@@ -177,3 +179,21 @@ class EventoForm(forms.Form):
             widget=forms.Select,
             required=True,
         )
+        
+        
+
+class RegistroForm(UserCreationForm): 
+    roles = (                   
+            (2, 'trabajador'),
+            (3, 'cliente'),
+            )   
+    rol = forms.ChoiceField(choices=roles)  
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2','rol')
+        
+
+class LoginForm(forms.Form):
+    usuario = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput())
+    
