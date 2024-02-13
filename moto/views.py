@@ -279,6 +279,8 @@ def moto_crear(request):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
+                messages.success(request, 'Se ha creado la moto correctamente.')
+                
                 return redirect("motos_mostrar")
             else:
                 print(response.status_code)
@@ -332,6 +334,7 @@ def moto_editar(request,moto_id):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
+                messages.success(request, 'Se ha editado la moto correctamente.')
                 return redirect("motos_mostrar")#,moto_id=moto_id
             else:
                 print(response.status_code)
@@ -377,6 +380,7 @@ def moto_editar_nombre(request,moto_id):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
+                messages.success(request, 'Se ha editado la moto correctamente.')
                 return redirect("motos_mostrar")
             else:
                 print(response.status_code)
@@ -406,6 +410,8 @@ def moto_eliminar(request,moto_id):
             headers=headers,
         )
         if(response.status_code == requests.codes.ok):
+            messages.success(request, 'Se ha eliminado la moto correctamente.')
+            
             return redirect("motos_mostrar")
         else:
             print(response.status_code)
@@ -438,6 +444,7 @@ def concesionario_crear(request):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
+                messages.success(request, 'Se ha creado el concesionario correctamente.')
                 return redirect("concesionarios_mostrar")
             else:
                 print(response.status_code)
@@ -496,6 +503,8 @@ def concesionario_editar(request,concesionario_id):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
+                messages.success(request, 'Se ha editado el concesionario correctamente.')
+                
                 return redirect("concesionarios_mostrar")
             else:
                 print(response.status_code)
@@ -542,6 +551,8 @@ def concesionario_editar_nombre(request,concesionario_id):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
+                messages.success(request, 'Se ha editado el concesionario correctamente.')
+                
                 return redirect("concesionarios_mostrar")
             else:
                 print(response.status_code)
@@ -572,6 +583,8 @@ def concesionario_eliminar(request,concesionario_id):
             headers=headers,
         )
         if(response.status_code == requests.codes.ok):
+            messages.success(request, 'Se ha eliminado el concesionario correctamente.')
+            
             return redirect("concesionarios_mostrar")
         else:
             print(response.status_code)
@@ -605,6 +618,8 @@ def evento_crear(request):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
+                
+                messages.success(request, 'Se ha creado el evento correctamente.')
                 return redirect("eventos_mostrar")
             else:
                 print(response.status_code)
@@ -664,6 +679,8 @@ def evento_editar(request,evento_id):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
+                
+                messages.success(request, 'Se ha editado el evento correctamente.')
                 return redirect("eventos_mostrar")
             else:
                 print(response.status_code)
@@ -685,6 +702,55 @@ def evento_editar(request,evento_id):
     return render(request, 'motos/actualizar_evento.html',{"formulario":formulario,"evento":evento})
 
 
+
+def evento_editar_nombre(request,evento_id):
+   
+    datosFormulario = None
+    
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    evento = helper.obtener_evento(evento_id)
+    formulario = EventoActualizarNombreForm(datosFormulario,
+            initial={
+                'nombre': evento['nombre'],
+            }
+    )
+    if (request.method == "POST"):
+        try:
+            formulario = EventoForm(request.POST)
+            headers = crear_cabecera()
+            datos = request.POST.copy()
+            response = requests.patch(
+                'http://127.0.0.1:8000/api/v1/evento/editar/nombre/'+str(evento_id),
+                headers=headers,
+                data=json.dumps(datos)
+            )
+            if(response.status_code == requests.codes.ok):
+                messages.success(request, 'Se ha editado el evento correctamente.')
+                
+                return redirect("eventos_mostrar")
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'motos/actualizar_nombre_evento.html',
+                            {"formulario":formulario,"evento":evento})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+    return render(request, 'motos/actualizar_nombre_evento.html',{"formulario":formulario,"evento":evento})
+
+
+
 def evento_eliminar(request,evento_id):
     try:
         headers = crear_cabecera()
@@ -693,6 +759,8 @@ def evento_eliminar(request,evento_id):
             headers=headers,
         )
         if(response.status_code == requests.codes.ok):
+            messages.success(request, 'Se ha eliminado el evento correctamente.')
+            
             return redirect("eventos_mostrar")
         else:
             print(response.status_code)

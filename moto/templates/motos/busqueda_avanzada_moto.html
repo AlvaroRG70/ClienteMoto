@@ -1,6 +1,9 @@
 {% extends "principal.html" %}
-{% block contenido %}
 {% load bootstrap5 %}
+
+{% block contenido %}
+{% bootstrap_css %}
+
     <form action = "{% url 'moto_buscar_avanzado' %}" method = "GET"> 
         
         <div class="mb-4">

@@ -6,7 +6,10 @@
 
 {%block contenido%}
 {% bootstrap_css %}
+
+
 <form action="{% url 'motos_crear' %}" method="POST">
+
 
     {% csrf_token %}
 <!--
