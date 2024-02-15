@@ -13,7 +13,7 @@ import environ
 import os
 env = environ.Env()
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'),True)
 
 
 
@@ -85,6 +85,7 @@ def crear_version():
 def motos_lista_api(request):
     
     headers = crear_cabecera()
+    print(headers)
     response = requests.get(crear_dominio() + crear_version() +'motos',  headers=headers)
     motos = parse_response(response)
 
@@ -795,7 +796,7 @@ def registrar_usuario(request):
                             )
                     request.session["usuario"]=usuario
                     request.session["token"] = token_acceso
-                    redirect("index")
+                    return redirect("index")
                 else:
                     print(response.status_code)
                     response.raise_for_status()

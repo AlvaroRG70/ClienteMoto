@@ -1,6 +1,9 @@
 {% extends "principal.html" %}
-
+{% load bootstrap5 %}
 {% block contenido %}
+
+{% bootstrap_css %}
+
 <form action = "{% url 'registrar_usuario' %}" method = "post"> 
     
     {% load bootstrap5 %}

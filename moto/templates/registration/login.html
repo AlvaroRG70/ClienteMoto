@@ -1,9 +1,11 @@
 {% extends "principal.html" %}  
-
+{% load bootstrap5 %}
 {% block contenido %}
+
+{% bootstrap_css %}
+
 <form action = "{% url 'login' %}" method = "post"> 
     
-    {% load bootstrap5 %}
     {% csrf_token %} 
     {% bootstrap_form form %}         
 

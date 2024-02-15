@@ -180,13 +180,13 @@ class EventoForm(forms.Form):
             required=True,
         )
         
-<<<<<<< HEAD
+
         
 
 class RegistroForm(UserCreationForm): 
     roles = (                   
-            (2, 'trabajador'),
-            (3, 'cliente'),
+            (1, 'trabajador'),
+            (2, 'cliente'),
             )   
     rol = forms.ChoiceField(choices=roles)  
     class Meta:
@@ -198,10 +198,9 @@ class LoginForm(forms.Form):
     usuario = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput())
     
-=======
+
 class EventoActualizarNombreForm(forms.Form):
     nombre = forms.CharField(label="Nombre del Evento",
                              required=True, 
                              max_length=200,
                              help_text="200 caracteres como máximo")
->>>>>>> 686d872ac8962f6c59b91cbb950ade3da311356e

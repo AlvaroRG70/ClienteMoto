@@ -71,8 +71,8 @@ class helper:
             'grant_type': 'password',
             'username': usuario,
             'password': password,
-            'client_id': 'moto',
-            'client_secret': 'moto',
+            'client_id': 'Alvaro',
+            'client_secret': 'mi_clave_secreta',
         }
 
         response = requests.post(token_url, data=data)
