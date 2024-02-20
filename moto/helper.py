@@ -68,7 +68,7 @@ class helper:
     def obtener_token_session(usuario,password):
         token_url = 'http://127.0.0.1:8000/oauth2/token/'
         data = {
-            'grant_type': 'password',
+            'grant_type': 'password',       
             'username': usuario,
             'password': password,
             'client_id': 'Alvaro',

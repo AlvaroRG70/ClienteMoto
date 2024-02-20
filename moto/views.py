@@ -64,8 +64,8 @@ def xml_to_dict(xml_element):
 
 
 
-def crear_cabecera():
-    TOKEN =  env("TOKEN_OAUTH")
+def crear_cabecera(request):
+    TOKEN =  request.session["token"]
     return {
         'Authorization': f'Bearer {TOKEN}',
         "Content-Type": "application/json"}
@@ -84,7 +84,7 @@ def crear_version():
 
 def motos_lista_api(request):
     
-    headers = crear_cabecera()
+    headers = crear_cabecera(request)
     print(headers)
     response = requests.get(crear_dominio() + crear_version() +'motos',  headers=headers)
     motos = parse_response(response)
@@ -94,7 +94,7 @@ def motos_lista_api(request):
 
 def concesionarios_lista_api(request):
     
-    headers = crear_cabecera()
+    headers = crear_cabecera(request)
     response = requests.get(crear_dominio() + crear_version() +'conc',  headers=headers)
     concesionarios = parse_response(response)
  
@@ -103,7 +103,7 @@ def concesionarios_lista_api(request):
 
 def eventos_lista_api(request):
      
-    headers = crear_cabecera()
+    headers = crear_cabecera(request)
     response = requests.get(crear_dominio() + crear_version() +'eventos',  headers=headers)
     eventos = parse_response(response)
 
@@ -142,7 +142,7 @@ def moto_busqueda_avanzada(request):
         formulario = BusquedaAvanzadaMotoForm(request.GET)
         
         try:
-            headers = crear_cabecera()
+            headers = crear_cabecera(request)
             response = requests.get(
                 crear_dominio() + crear_version() +'motos/busqueda_avanzada',
                 headers=headers,
@@ -182,7 +182,7 @@ def concesionario_busqueda_avanzada(request):
         formulario = BusquedaAvanzadaConcesionarioForm(request.GET)
         
         try:
-            headers = crear_cabecera()
+            headers = crear_cabecera(request)
             response = requests.get(
                 crear_dominio() + crear_version() +'concesionario/busqueda_avanzada',
                 headers=headers,
@@ -219,7 +219,7 @@ def evento_busqueda_avanzada(request):
         formulario = BusquedaAvanzadaEventoForm(request.GET)
         
         try:
-            headers = crear_cabecera()
+            headers = crear_cabecera(request)
             response = requests.get(
                 crear_dominio() + crear_version() +'evento/busqueda_avanzada',
                 headers=headers,
@@ -268,7 +268,7 @@ def moto_crear(request):
         try:
             formulario = MotoForm(request.POST)
             headers =  {
-                        'Authorization': 'Bearer '+env("TOKEN_OAUTH"),
+                        'Authorization': 'Bearer '+ request.session["token"],
                         "Content-Type": "application/json" 
                     } 
             datos = formulario.data.copy()
@@ -326,7 +326,7 @@ def moto_editar(request,moto_id):
     if (request.method == "POST"):
         try:
             formulario = MotoForm(request.POST)
-            headers = crear_cabecera()
+            headers = crear_cabecera(request)
             datos = request.POST.copy()
             datos["usuarios"] = request.POST.getlist("usuarios")             
             response = requests.put(
@@ -373,7 +373,7 @@ def moto_editar_nombre(request,moto_id):
     if (request.method == "POST"):
         try:
             formulario = MotoForm(request.POST)
-            headers = crear_cabecera()
+            headers = crear_cabecera(request)
             datos = request.POST.copy()
             response = requests.patch(
                 'http://127.0.0.1:8000/api/v1/motos/editar/nombre/'+str(moto_id),
@@ -405,7 +405,7 @@ def moto_editar_nombre(request,moto_id):
 
 def moto_eliminar(request,moto_id):
     try:
-        headers = crear_cabecera()
+        headers = crear_cabecera(request)
         response = requests.delete(
             'http://127.0.0.1:8000/api/v1/motos/eliminar/'+str(moto_id),
             headers=headers,
@@ -430,7 +430,7 @@ def concesionario_crear(request):
         try:
             formulario = ConcesionarioForm(request.POST)
             headers =  {
-                        'Authorization': 'Bearer '+env("TOKEN_OAUTH"),
+                        'Authorization': 'Bearer '+request.session["token"],
                         "Content-Type": "application/json" 
                     } 
             datos = formulario.data.copy()
@@ -491,7 +491,7 @@ def concesionario_editar(request,concesionario_id):
     if (request.method == "POST"):
         try:
             formulario = ConcesionarioForm(request.POST)
-            headers = crear_cabecera()
+            headers = crear_cabecera(request)
             datos = request.POST.copy()
               
             datos["fecha_apertura"] = str(date(year=int(datos['fecha_apertura_year']),
@@ -544,7 +544,7 @@ def concesionario_editar_nombre(request,concesionario_id):
     if (request.method == "POST"):
         try:
             formulario = ConcesionarioForm(request.POST)
-            headers = crear_cabecera()
+            headers = crear_cabecera(request)
             datos = request.POST.copy()
             response = requests.patch(
                 'http://127.0.0.1:8000/api/v1/concesionario/editar/nombre/'+str(concesionario_id),
@@ -578,7 +578,7 @@ def concesionario_editar_nombre(request,concesionario_id):
 
 def concesionario_eliminar(request,concesionario_id):
     try:
-        headers = crear_cabecera()
+        headers = crear_cabecera(request)
         response = requests.delete(
             'http://127.0.0.1:8000/api/v1/concesionario/eliminar/'+str(concesionario_id),
             headers=headers,
@@ -604,7 +604,7 @@ def evento_crear(request):
         try:
             formulario = EventoForm(request.POST)
             headers =  {
-                        'Authorization': 'Bearer '+env("TOKEN_OAUTH"),
+                        'Authorization': 'Bearer '+request.session["token"],
                         "Content-Type": "application/json" 
                     } 
             datos = formulario.data.copy()
@@ -667,7 +667,7 @@ def evento_editar(request,evento_id):
     if (request.method == "POST"):
         try:
             formulario = EventoForm(request.POST)
-            headers = crear_cabecera()
+            headers = crear_cabecera(request)
             datos = request.POST.copy()
               
             datos["fecha"] = str(date(year=int(datos['fecha_year']),
@@ -720,7 +720,7 @@ def evento_editar_nombre(request,evento_id):
     if (request.method == "POST"):
         try:
             formulario = EventoForm(request.POST)
-            headers = crear_cabecera()
+            headers = crear_cabecera(request)
             datos = request.POST.copy()
             response = requests.patch(
                 'http://127.0.0.1:8000/api/v1/evento/editar/nombre/'+str(evento_id),
@@ -754,7 +754,7 @@ def evento_editar_nombre(request,evento_id):
 
 def evento_eliminar(request,evento_id):
     try:
-        headers = crear_cabecera()
+        headers = crear_cabecera(request)
         response = requests.delete(
             'http://127.0.0.1:8000/api/v1/evento/eliminar/'+str(evento_id),
             headers=headers,
