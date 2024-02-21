@@ -14,11 +14,9 @@
 {% endif %}
 
 <h1 class="row">Lista de Motos</h1>
-    {% for moto in motos_mostrar%}
         <div class="col-sm mb-2">
             
             <img src="{{ moto.imagen_url}}" alt="Imagen de la moto {{ moto.nombre }}">
-            <p>{{moto.imagen_url}}</p>
             <p>nombre: {{moto.nombre}}</p>
             <p>marca: {{moto.marca}}</p>
             <p>modelo: {{moto.modelo}}</p>
@@ -28,18 +26,7 @@
             {%for cliente in moto.usuario%}
             <p>cliente: {{cliente.nombre}}</p>
             {%endfor%}
-   
-                <a href="{% url 'motos_editar' moto.id %}" class="btn btn-primary ">Editar</a>
-                <a href="{% url 'motos_editar_nombre' moto.id %}" class="btn btn-primary">Editar Nombre</a>
-                <a href="{% url 'moto_eliminar' moto.id %}" class="btn btn-danger ">Eliminar</a>
-                <a href="{% url 'moto_mostrar' moto.id %}" class="btn btn-secondary">Ver más</a>
-
             
-
         </div>
-    {% empty %}
-        <h1>Lo sentimos pero no hay motos</h1>
-    
-    {% endfor %}
 </div>
 {%endblock%}

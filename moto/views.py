@@ -92,6 +92,11 @@ def motos_lista_api(request):
     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
 
 
+def moto_obtener(request,moto_id):
+    moto = helper.obtener_moto(moto_id, request)
+    return render(request, 'motos/moto_mostrar.html',{"moto":moto})
+
+
 def concesionarios_lista_api(request):
     
     headers = crear_cabecera(request)
@@ -312,7 +317,7 @@ def moto_editar(request,moto_id):
     if request.method == "POST":
         datosFormulario = request.POST
     
-    moto = helper.obtener_moto(moto_id)
+    moto = helper.obtener_moto(moto_id, request)
     formulario = MotoForm(datosFormulario,
             initial={
                 'nombre': moto['nombre'],
@@ -322,10 +327,11 @@ def moto_editar(request,moto_id):
                 'marca': moto['marca'],
 
             }
+        , request_usuario=request
     )
     if (request.method == "POST"):
         try:
-            formulario = MotoForm(request.POST)
+            formulario = MotoForm(request.POST, request_usuario=request)
             headers = crear_cabecera(request)
             datos = request.POST.copy()
             datos["usuarios"] = request.POST.getlist("usuarios")             

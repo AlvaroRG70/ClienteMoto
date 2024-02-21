@@ -10,9 +10,9 @@ env = environ.Env()
 
 class helper:
 
-    def obtener_usuarios_select():
+    def obtener_usuarios_select(request):
         # Obtenemos todos los usuarios
-        headers = {'Authorization': 'Bearer ' + env("TOKEN_OAUTH")}
+        headers = {'Authorization': 'Bearer ' + request.session["token"]}
         response = requests.get('http://127.0.0.1:8000/api/v1/usuarios', headers=headers)
         usuarios = response.json()
 
@@ -21,9 +21,9 @@ class helper:
             lista_usuarios.append((usuario["id"], usuario["nombre"]))  # Acceder a cada usuario individualmente
         return lista_usuarios
     
-    def obtener_motos_select():
+    def obtener_motos_select(request):
 
-        headers = {'Authorization': 'Bearer ' + env("TOKEN_OAUTH")}
+        headers = {'Authorization': 'Bearer ' + request.session["token"]}
         response = requests.get('http://127.0.0.1:8000/api/v1/usuarios', headers=headers)
         motos = response.json()
 
@@ -32,9 +32,9 @@ class helper:
             lista_motos.append((moto["id"], moto["nombre"]))
         return lista_motos
     
-    def obtener_moto(id):
+    def obtener_moto(id, request):
          # obtenemos todos los libros
-        headers = {'Authorization': 'Bearer '+env("TOKEN_OAUTH")} 
+        headers = {'Authorization': 'Bearer '+request.session["token"]} 
         response = requests.get('http://127.0.0.1:8000/api/v1/motos/'+str(id),headers=headers)
         print(response)
         moto = response.json()

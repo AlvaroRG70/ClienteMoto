@@ -66,7 +66,7 @@ class MotoForm(forms.Form):
     
     precio = forms.DecimalField(label="Precio", max_digits=5, decimal_places=2, required=False)
 
-    
+    imagen = forms.FileField(label="Imagen de la moto", required=False)
     
     MARCA = [
         ("KA","Kawasaki"),
@@ -82,10 +82,11 @@ class MotoForm(forms.Form):
                                initial="KA")
     
     def __init__(self, *args, **kwargs):
-    
+        
+        self.request = kwargs.pop("request_usuario")
         super(MotoForm, self).__init__(*args, **kwargs)
         
-        usuariosDisponibles = helper.obtener_usuarios_select()
+        usuariosDisponibles = helper.obtener_usuarios_select(self.request)
         self.fields["usuarios"] = forms.ChoiceField(
             choices=usuariosDisponibles,
             widget=forms.Select,
