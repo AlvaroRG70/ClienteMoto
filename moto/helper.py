@@ -43,9 +43,9 @@ class helper:
         print('aqui')
         return moto
     
-    def obtener_concesionario(id):
+    def obtener_concesionario(id, request):
 
-        headers = {'Authorization': 'Bearer '+env("TOKEN_OAUTH")} 
+        headers = {'Authorization': 'Bearer '+request.session["token"]} 
         response = requests.get('http://127.0.0.1:8000/api/v1/concesionario/'+str(id),headers=headers)
         concesionario = response.json()
         return concesionario
@@ -53,9 +53,9 @@ class helper:
     
     
     
-    def obtener_evento(id):
+    def obtener_evento(id, request):
 
-        headers = {'Authorization': 'Bearer '+env("TOKEN_OAUTH")} 
+        headers = {'Authorization': 'Bearer '+request.session["token"]} 
         response = requests.get('http://127.0.0.1:8000/api/v1/evento/'+str(id),headers=headers)
         print('aqui')
         print(response)

@@ -17,7 +17,7 @@
     {% for conc in concesionarios_mostrar%}
         <div class="col-sm mb-2">
             
-            <p>nombre: {{conc.nombre}}</p>
+            <h2> {{conc.nombre}}</h2>
             <p>ubicacion: {{conc.ubicacion}}</p>
             <p>telefono: {{conc.telefono}}</p>
             <p>fecha_apertura: {{conc.fecha_apertura    }}</p>
@@ -26,10 +26,21 @@
             {%for moto in conc.moto%}
             <p>Motos: {{moto.nombre}}</p>
             {%endfor%}
-            
+
+            <h3>Comentarios:</h3>
+            <ul>
+                {% for valoracion in conc.valoraciones %}
+                    <li>
+                        <strong>{{ valoracion.usuario.nombre }}:</strong> {{ valoracion.comentario }} 
+                        (Puntuación: {{ valoracion.puntuacion }})
+                    </li>
+                {% endfor %}
+            </ul>
+            {%if request.session.usuario.rol == 1%}
             <a href="{% url 'concesionarios_editar' conc.id %}"  class="btn btn-primary ">Editar</a>
             <a href="{% url 'concesionarios_editar_nombre' conc.id %}"  class="btn btn-primary" >Editar Nombre</a>
             <a href="{% url 'concesionario_eliminar' conc.id %}" class="btn btn-danger ">Eliminar</a>
+            {%endif%}
       
         </div>
     {% empty %}

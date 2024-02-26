@@ -271,7 +271,7 @@ def moto_crear(request):
     
     if (request.method == "POST"):
         try:
-            formulario = MotoForm(request.POST)
+            formulario = MotoForm(request.POST, request_usuario=request)
             headers =  {
                         'Authorization': 'Bearer '+ request.session["token"],
                         "Content-Type": "application/json" 
@@ -307,7 +307,7 @@ def moto_crear(request):
             return mi_error_500(request)
         
     else:
-         formulario = MotoForm(None)
+         formulario = MotoForm(None, request_usuario=request)
     return render(request, 'motos/create_moto.html',{"formulario":formulario})
 
 def moto_editar(request,moto_id):
@@ -323,6 +323,7 @@ def moto_editar(request,moto_id):
                 'nombre': moto['nombre'],
                 'modelo': moto['modelo'],
                 'año': moto['año'],
+                'imagen': moto['imagen'],
                 'precio': moto['precio'],
                 'marca': moto['marca'],
 
@@ -370,7 +371,7 @@ def moto_editar_nombre(request,moto_id):
     if request.method == "POST":
         datosFormulario = request.POST
     
-    moto = helper.obtener_moto(moto_id)
+    moto = helper.obtener_moto(moto_id, request)
     formulario = MotoActualizarNombreForm(datosFormulario,
             initial={
                 'nombre': moto['nombre'],
@@ -378,7 +379,7 @@ def moto_editar_nombre(request,moto_id):
     )
     if (request.method == "POST"):
         try:
-            formulario = MotoForm(request.POST)
+            formulario = MotoForm(request.POST, request_usuario=request)
             headers = crear_cabecera(request)
             datos = request.POST.copy()
             response = requests.patch(
@@ -434,9 +435,9 @@ def concesionario_crear(request):
     
     if (request.method == "POST"):
         try:
-            formulario = ConcesionarioForm(request.POST)
+            formulario = ConcesionarioForm(request.POST, request_moto=request)
             headers =  {
-                        'Authorization': 'Bearer '+request.session["token"],
+                        'Authorization': 'Bearer '+ request.session["token"],
                         "Content-Type": "application/json" 
                     } 
             datos = formulario.data.copy()
@@ -472,7 +473,7 @@ def concesionario_crear(request):
             return mi_error_500(request)
         
     else:
-         formulario = ConcesionarioForm(None)
+         formulario = ConcesionarioForm(None, request_moto=request)
     return render(request, 'motos/create_concesionario.html',{"formulario":formulario})
 
 
@@ -483,7 +484,7 @@ def concesionario_editar(request,concesionario_id):
     if request.method == "POST":
         datosFormulario = request.POST
     
-    concesionario = helper.obtener_concesionario(concesionario_id)
+    concesionario = helper.obtener_concesionario(concesionario_id, request)
     formulario = ConcesionarioForm(datosFormulario,
             initial={
                 'nombre': concesionario['nombre'],
@@ -493,10 +494,11 @@ def concesionario_editar(request,concesionario_id):
                 'fecha_apertura': datetime.strptime(concesionario['fecha_apertura'], '%Y-%m-%d').date(),
                 
             }
+            ,request_moto=request
     )
     if (request.method == "POST"):
         try:
-            formulario = ConcesionarioForm(request.POST)
+            formulario = ConcesionarioForm(request.POST, request_moto=request)
             headers = crear_cabecera(request)
             datos = request.POST.copy()
               
@@ -541,7 +543,7 @@ def concesionario_editar_nombre(request,concesionario_id):
     if request.method == "POST":
         datosFormulario = request.POST
     
-    concesionario = helper.obtener_concesionario(concesionario_id)
+    concesionario = helper.obtener_concesionario(concesionario_id, request)
     formulario = ConcesionarioActualizarNombreForm(datosFormulario,
             initial={
                 'nombre': concesionario['nombre'],
@@ -549,7 +551,7 @@ def concesionario_editar_nombre(request,concesionario_id):
     )
     if (request.method == "POST"):
         try:
-            formulario = ConcesionarioForm(request.POST)
+            formulario = ConcesionarioForm(request.POST, request_moto=request)
             headers = crear_cabecera(request)
             datos = request.POST.copy()
             response = requests.patch(
@@ -608,7 +610,7 @@ def evento_crear(request):
     
     if (request.method == "POST"):
         try:
-            formulario = EventoForm(request.POST)
+            formulario = EventoForm(request.POST, request_usuario=request)
             headers =  {
                         'Authorization': 'Bearer '+request.session["token"],
                         "Content-Type": "application/json" 
@@ -647,7 +649,7 @@ def evento_crear(request):
             return mi_error_500(request)
         
     else:
-         formulario = EventoForm(None)
+         formulario = EventoForm(None,request_usuario= request)
     return render(request, 'motos/create_evento.html',{"formulario":formulario})
 
 
@@ -658,21 +660,23 @@ def evento_editar(request,evento_id):
     if request.method == "POST":
         datosFormulario = request.POST
     
-    evento = helper.obtener_evento(evento_id)
+    evento = helper.obtener_evento(evento_id,request)
     formulario = EventoForm(datosFormulario,
             initial={
                 'nombre': evento['nombre'],
                 'descripcion': evento['descripcion'],
                 'ubicacion': evento['ubicacion'],
                 'hora': evento['hora'],
+                'kms': evento['kms'],
                 'fecha': datetime.strptime(evento['fecha'], '%Y-%m-%d').date(),
                 
             }
+            , request_usuario=request
     )
     
     if (request.method == "POST"):
         try:
-            formulario = EventoForm(request.POST)
+            formulario = EventoForm(request.POST, request_usuario=request)
             headers = crear_cabecera(request)
             datos = request.POST.copy()
               
@@ -717,7 +721,7 @@ def evento_editar_nombre(request,evento_id):
     if request.method == "POST":
         datosFormulario = request.POST
     
-    evento = helper.obtener_evento(evento_id)
+    evento = helper.obtener_evento(evento_id, request)
     formulario = EventoActualizarNombreForm(datosFormulario,
             initial={
                 'nombre': evento['nombre'],
@@ -725,7 +729,7 @@ def evento_editar_nombre(request,evento_id):
     )
     if (request.method == "POST"):
         try:
-            formulario = EventoForm(request.POST)
+            formulario = EventoForm(request.POST, request_usuario=request)
             headers = crear_cabecera(request)
             datos = request.POST.copy()
             response = requests.patch(

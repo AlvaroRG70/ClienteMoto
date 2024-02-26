@@ -4,7 +4,7 @@
         <li><a href="{% url 'index' %}" class="enlacemenu">Inicio</a></li>
 
         <li><a href="{% url 'motos_mostrar' %}" class="enlacemenu">Lista motos</a></li>
-
+        
         <li><a href="{% url 'concesionarios_mostrar' %}" class="enlacemenu">Lista Concesionarios</a></li>
 
         <li><a href="{% url 'eventos_mostrar' %}" class="enlacemenu">Lista eventos</a></li>
@@ -15,12 +15,17 @@
 
         <li><a href="{% url 'evento_buscar_avanzado' %}" class="enlacemenu">Buscar Avanzado Evento</a></li>
 
+        {%if request.session.usuario.rol == 1%}
         <li><a href="{% url 'motos_crear' %}" class="enlacemenu">Moto crear</a></li>    
+        {% endif%}
 
+        {%if request.session.usuario.rol == 1%}
         <li><a href="{% url 'concesionarios_crear' %}" class="enlacemenu">Concesionario crear</a></li>   
-         
+        {% endif%}
+
+        {%if request.session.usuario.rol == 1%}
         <li><a href="{% url 'eventos_crear' %}" class="enlacemenu">Evento crear</a></li>  
-        
+        {% endif%}
       
 
 

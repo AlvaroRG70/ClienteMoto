@@ -22,14 +22,16 @@
             <p>hora: {{evento.hora}}</p>
             <p>fecha: {{evento.fecha}}</p>
             <p>descripcion: {{evento.descripcion}}</p>
+            <p>Kilómetros: {{evento.kms}}</p>
     
             {%for moto in evento.usuario%}
             <p>Motos: {{moto.nombre}}</p>
             {%endfor%}
-            
+            {%if request.session.usuario.rol == 1%}
             <a href="{% url 'evento_editar' evento.id %} "  class="btn btn-primary ">Editar</a>
             <a href="{% url 'eventos_editar_nombre' evento.id %}"  class="btn btn-primary ">Editar Nombre</a>
             <a href="{% url 'evento_eliminar' evento.id %}" class="btn btn-danger ">Eliminar</a>
+            {%endif%}
             
             
 

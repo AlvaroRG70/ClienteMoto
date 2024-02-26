@@ -17,7 +17,7 @@
     {% for moto in motos_mostrar%}
         <div class="col-sm mb-2">
             
-            <img src="{{ moto.imagen_url}}" alt="Imagen de la moto {{ moto.nombre }}">
+            <img src="http://127.0.0.1:8000/{{ moto.imagen_url}}" alt="Imagen de la moto {{ moto.nombre }}">
             <p>{{moto.imagen_url}}</p>
             <p>nombre: {{moto.nombre}}</p>
             <p>marca: {{moto.marca}}</p>
@@ -28,10 +28,11 @@
             {%for cliente in moto.usuario%}
             <p>cliente: {{cliente.nombre}}</p>
             {%endfor%}
-   
+            {%if request.session.usuario.rol == 1%}
                 <a href="{% url 'motos_editar' moto.id %}" class="btn btn-primary ">Editar</a>
                 <a href="{% url 'motos_editar_nombre' moto.id %}" class="btn btn-primary">Editar Nombre</a>
                 <a href="{% url 'moto_eliminar' moto.id %}" class="btn btn-danger ">Eliminar</a>
+            {%endif%}
                 <a href="{% url 'moto_mostrar' moto.id %}" class="btn btn-secondary">Ver más</a>
 
             

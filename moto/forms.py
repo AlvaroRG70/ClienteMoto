@@ -128,10 +128,11 @@ class ConcesionarioForm(forms.Form):
                                         )
     
     def __init__(self, *args, **kwargs):
-    
+        
+        self.request = kwargs.pop("request_moto")
         super(ConcesionarioForm, self).__init__(*args, **kwargs)
         
-        motosDisponibles = helper.obtener_motos_select()
+        motosDisponibles = helper.obtener_motos_select(self.request)
         self.fields["motos"] = forms.ChoiceField(
             choices=motosDisponibles,
             widget=forms.Select,
@@ -165,16 +166,19 @@ class EventoForm(forms.Form):
     
     hora = forms.TimeField(label="Hora del Evento", required=True, widget=forms.TimeInput(attrs={'type': 'time'}))
     
+    kms = forms.IntegerField(label="Kilómetros del evento")
+    
     fecha= forms.DateField(label="Fecha",
                                         initial=datetime.date.today,
                                         widget= forms.SelectDateWidget(years=range(1990,2025))
                                         )
     
     def __init__(self, *args, **kwargs):
-    
+        
+        self.request = kwargs.pop("request_usuario")
         super(EventoForm, self).__init__(*args, **kwargs)
         
-        usuariosDisponibles = helper.obtener_usuarios_select()
+        usuariosDisponibles = helper.obtener_usuarios_select(self.request)
         self.fields["usuarios"] = forms.ChoiceField(
             choices=usuariosDisponibles,
             widget=forms.Select,
