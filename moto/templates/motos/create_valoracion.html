@@ -1,0 +1,29 @@
+{% extends "principal.html" %}
+{% load bootstrap5 %}
+
+{% block contenido %}
+{% bootstrap_css %}
+
+<form action="{% url 'valoraciones_crear' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="mb-4">
+        {% bootstrap_field formulario.usuario %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario.puntuacion %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario.comentario %}
+    </div>
+
+    <div class="mb-4">
+        {% bootstrap_field formulario.concesionario %}
+    </div>
+
+    <button type="submit">Enviar</button>
+</form>
+
+{% endblock %}

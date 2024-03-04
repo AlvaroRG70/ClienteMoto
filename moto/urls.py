@@ -33,5 +33,11 @@ urlpatterns = [
     path('logout',views.logout,name='logout'),
     
     
+    path('valoracion/crear',views.valoracion_crear,name='valoraciones_crear'),
+    
+    path("motos/lista/caballos", views.motos_lista_caballos, name="motos_mostrar_caballos"),
+    
+    
+    
 ]
 

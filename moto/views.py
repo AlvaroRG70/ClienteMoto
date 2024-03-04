@@ -92,6 +92,16 @@ def motos_lista_api(request):
     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
 
 
+def motos_lista_caballos(request):
+    
+    headers = crear_cabecera(request)
+    print(headers)
+    response = requests.get(crear_dominio() + crear_version() +'motos/caballos',  headers=headers)
+    motos = parse_response(response)
+
+    return render(request, 'motos/lista_motos_caballos.html',{'motos_mostrar_caballos':motos})
+
+
 def moto_obtener(request,moto_id):
     moto = helper.obtener_moto(moto_id, request)
     return render(request, 'motos/moto_mostrar.html',{"moto":moto})
@@ -428,6 +438,59 @@ def moto_eliminar(request,moto_id):
         print(f'Ocurrió un error: {err}')
         return mi_error_500(request)
     return redirect('motos_mostrar')
+
+
+
+def valoracion_crear(request):
+    if request.method == "POST":
+        try:
+            formulario = ValoracionForm(request.POST, request_usuario=request)
+            if formulario.is_valid():
+                datos = formulario.cleaned_data
+                # Acceder a los datos de los campos usuarios y concesionarios
+                usuarios_seleccionados = datos.get("usuarios")
+                concesionarios_seleccionados = datos.get("concesionarios")
+                
+                # Resto del código para enviar los datos al servidor...
+                headers = {
+                    'Authorization': 'Bearer ' + request.session["token"],
+                    "Content-Type": "application/json"
+                }
+                response = requests.post(
+                    'http://127.0.0.1:8000/api/v1/valoraciones/crear',
+                    headers=headers,
+                    data=json.dumps(datos)
+                )
+                if response.status_code == requests.codes.ok:
+                    messages.success(request, 'Se ha creado la valoración correctamente.')
+                    return redirect("concesionarios_mostrar")
+                else:
+                    print(response.status_code)
+                    response.raise_for_status()
+            else:
+                errores = formulario.errors
+                return render(request, 'motos/create_valoracion.html', {"formulario": formulario, "errores": errores})
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if response.status_code == 400:
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error, errores[error])
+                return render(request, 'motos/create_valoracion.html', {"formulario": formulario})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+    else:
+        formulario = ValoracionForm(request_usuario=request)
+    return render(request, 'motos/create_valoracion.html', {"formulario": formulario})
+
+
+
+
+
+
 
 
 

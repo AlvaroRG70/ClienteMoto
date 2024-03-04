@@ -64,7 +64,10 @@ class MotoForm(forms.Form):
     
     año = forms.IntegerField()
     
-    precio = forms.DecimalField(label="Precio", max_digits=5, decimal_places=2, required=False)
+    precio = forms.DecimalField(label="Precio")
+    
+    caballos = forms.IntegerField()
+    consumo = forms.DecimalField(label="Consumo")
 
     imagen = forms.FileField(label="Imagen de la moto", required=False)
     
@@ -101,6 +104,44 @@ class MotoActualizarNombreForm(forms.Form):
                              help_text="200 caracteres como máximo")
     
     
+
+
+class ValoracionForm(forms.Form):
+
+    
+    
+    puntuacion = forms.IntegerField(label="Puntuacion")
+    
+    comentario = forms.CharField(label="Comentario",
+                                  required=False,
+                                  widget=forms.Textarea())
+    
+    def __init__(self, *args, **kwargs):
+        
+        self.request = kwargs.pop("request_usuario")
+        super(ValoracionForm, self).__init__(*args, **kwargs)
+        
+        usuariosDisponibles = helper.obtener_usuarios_select(self.request)
+        concesionariosDisponibles = helper.obtener_concesionarios_select(self.request)
+        
+        self.fields["usuario"] = forms.ChoiceField(
+            choices=usuariosDisponibles,
+            widget=forms.Select,
+            required=True,
+        )
+        
+        self.fields["concesionario"] = forms.ChoiceField(
+            choices=concesionariosDisponibles,
+            widget=forms.Select,
+            required=True,
+        )
+        
+        
+        
+
+
+
+
 
 
 class ConcesionarioForm(forms.Form):

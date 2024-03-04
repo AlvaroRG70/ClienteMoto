@@ -32,6 +32,18 @@ class helper:
             lista_motos.append((moto["id"], moto["nombre"]))
         return lista_motos
     
+    
+    def obtener_concesionarios_select(request):
+
+        headers = {'Authorization': 'Bearer ' + request.session["token"]}
+        response = requests.get('http://127.0.0.1:8000/api/v1/conc', headers=headers)
+        concesionarios = response.json()
+
+        lista_concesionarios = [("","Ninguna")]
+        for concesionario in concesionarios:
+            lista_concesionarios.append((concesionario["id"], concesionario["nombre"]))
+        return lista_concesionarios
+    
     def obtener_moto(id, request):
          # obtenemos todos los libros
         headers = {'Authorization': 'Bearer '+request.session["token"]} 
