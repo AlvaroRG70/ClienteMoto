@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'bootstrap5',
     'django_bootstrap_icons',
     'moto',
-    'automatic_crud',
     'rest_framework',
 ]
 

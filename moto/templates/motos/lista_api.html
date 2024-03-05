@@ -13,8 +13,8 @@
     {% endfor %}
 {% endif %}
 
-<h1 class="row">Lista de Motos</h1>
-<a href="{% url 'motos_mostrar_caballos'%}" class="btn btn-primary ">Ordenar Por Caballos</a>
+<h1 class="row">Lista de Motos Ordenadas Ascendente</h1>
+<a href="{% url 'motos_mostrar_caballos'%}" class="btn btn-primary ">Orden Por Caballos Descendente</a>
     {% for moto in motos_mostrar%}
         <div class="col-sm mb-2">
             

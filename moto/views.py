@@ -85,18 +85,15 @@ def crear_version():
 def motos_lista_api(request):
     
     headers = crear_cabecera(request)
-    print(headers)
     response = requests.get(crear_dominio() + crear_version() +'motos',  headers=headers)
     motos = parse_response(response)
 
     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
 
 
-def motos_lista_caballos(request):
-    
+def motos_lista_caballos(request):  
     headers = crear_cabecera(request)
-    print(headers)
-    response = requests.get(crear_dominio() + crear_version() +'motos/caballos',  headers=headers)
+    response = requests.get(crear_dominio() + crear_version() +'motos/caballos', headers=headers)
     motos = parse_response(response)
 
     return render(request, 'motos/lista_motos_caballos.html',{'motos_mostrar_caballos':motos})
