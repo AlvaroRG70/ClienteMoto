@@ -99,9 +99,37 @@ def motos_lista_caballos(request):
     return render(request, 'motos/lista_motos_caballos.html',{'motos_mostrar_caballos':motos})
 
 
+
+def reservar_moto(request, moto_id):
+    try:
+        headers = crear_cabecera(request)
+        response = requests.patch(
+            f'http://127.0.0.1:8000/api/v1/motos/reservar/{moto_id}',
+            headers=headers
+        )
+        if response.status_code == requests.codes.ok:
+            messages.success(request, 'Se ha reservado la moto correctamente.')
+            return redirect("motos_mostrar")
+        else:
+            print(response.status_code)
+            response.raise_for_status()
+    except requests.HTTPError as http_err:
+        print(f'Hubo un error en la petición: {http_err}')
+        return mi_error_500(request)
+    except Exception as err:
+        print(f'Ocurrió un error: {err}')
+        return mi_error_500(request)
+
+
+
+
+
+
 def moto_obtener(request,moto_id):
     moto = helper.obtener_moto(moto_id, request)
     return render(request, 'motos/moto_mostrar.html',{"moto":moto})
+
+
 
 
 def concesionarios_lista_api(request):
@@ -120,8 +148,6 @@ def eventos_lista_api(request):
     eventos = parse_response(response)
 
     return render(request, 'motos/lista_eventos.html',{'eventos_mostrar':eventos})
-
-
 
 
 
