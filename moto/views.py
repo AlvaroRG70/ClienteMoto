@@ -103,7 +103,7 @@ def motos_lista_caballos(request):
 def reservar_moto(request, moto_id):
     try:
         headers = crear_cabecera(request)
-        response = requests.patch(
+        response = requests.post(
             f'http://127.0.0.1:8000/api/v1/motos/reservar/{moto_id}',
             headers=headers
         )
