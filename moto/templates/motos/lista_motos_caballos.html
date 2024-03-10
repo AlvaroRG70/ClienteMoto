@@ -18,7 +18,7 @@
     {% for moto in motos_mostrar_caballos%}
         <div class="col-sm mb-2">
             
-            <img src="http://127.0.0.1:8000/{{ moto.imagen_url}}" alt="Imagen de la moto {{ moto.nombre }}">
+            <img src="https://alvaroclase.pythonanywhere.com//{{ moto.imagen_url}}" alt="Imagen de la moto {{ moto.nombre }}">
      
             <p>nombre: {{moto.nombre}}</p>
             <p>marca: {{moto.marca}}</p>
@@ -32,7 +32,7 @@
     
             {%for cliente in moto.usuario%}
             <p>cliente: {{cliente.nombre}}</p>
-            {%endfor%}
+cd            {%endfor%}
             {%if request.session.usuario.rol == 1%}
                 <a href="{% url 'motos_editar' moto.id %}" class="btn btn-primary ">Editar</a>
                 <a href="{% url 'motos_editar_nombre' moto.id %}" class="btn btn-primary">Editar Nombre</a>

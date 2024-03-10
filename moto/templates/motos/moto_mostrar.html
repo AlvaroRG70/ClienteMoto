@@ -16,7 +16,7 @@
 <h1 class="row">Lista de Motos</h1>
         <div class="col-sm mb-2">
             
-            <img src="http://127.0.0.1:8000{{ moto.imagen}}" alt="Imagen de la moto {{ moto.nombre }}">
+            <img src="https://alvaroclase.pythonanywhere.com/{{ moto.imagen}}" alt="Imagen de la moto {{ moto.nombre }}">
             
             <p>nombre: {{moto.nombre}}</p>
             <p>marca: {{moto.marca}}</p>
@@ -28,7 +28,7 @@
             <p>cliente: {{cliente.nombre}}</p>
             {%endfor%}
 
-            <a href="{% url 'motos_reservar' moto.id %}" class="btn btn-primary ">Reservar</a>
+            <a href="{% url 'reservas_crear' %}" class="btn btn-primary ">Reservar</a>
             
         </div>
 </div>

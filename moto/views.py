@@ -27,7 +27,7 @@ def index(request):
     return render(request, 'index.html')
 
 # def motos_lista_api(request):
-#     response = requests.get('http://127.0.0.1:8000/api/v1/motos')
+#     response = requests.get('https://alvaroclase.pythonanywhere.com//api/v1/motos')
 #     motos = parse_response(response)
 #     return render(request, 'motos/lista_api.html',{'motos_mostrar':motos})
 
@@ -98,13 +98,76 @@ def motos_lista_caballos(request):
 
     return render(request, 'motos/lista_motos_caballos.html',{'motos_mostrar_caballos':motos})
 
+def motos_lista_reserva(request):  
+    headers = crear_cabecera(request)
+    response = requests.get(crear_dominio() + crear_version() +'reservas/lista', headers=headers)
+    motos = parse_response(response)
+
+    return render(request, 'motos/reserva_motos.html',{'motos_reserva':motos})
+
+
+
+def reserva_crear(request):
+    if request.method == "POST":
+        try:
+            formulario = ReservaForm(request.POST, request_usuario=request)
+            if formulario.is_valid():
+                datos = formulario.cleaned_data
+
+                # Convertir las cadenas de usuarios y motos a listas
+                usuarios_seleccionados = [datos.get("usuarios")]
+                motos_seleccionadas = [datos.get("moto")]
+
+                # Resto del código para enviar los datos al servidor...
+                headers = {
+                    'Authorization': 'Bearer ' + request.session["token"],
+                    "Content-Type": "application/json"
+                }
+
+                # Datos a enviar al servidor
+                datos_enviar = {
+                    "usuario": usuarios_seleccionados,
+                    "moto": motos_seleccionadas,
+                }
+
+                response = requests.post(
+                    'https://alvaroclase.pythonanywhere.com//api/v1/reservas/crear',
+                    headers=headers,
+                    data=json.dumps(datos_enviar)
+                )
+
+                if response.status_code == requests.codes.ok:
+                    messages.success(request, 'Se ha creado la reserva correctamente.')
+                    return redirect("motos_reservar")
+                else:
+                    print(response.status_code)
+                    response.raise_for_status()
+            else:
+                errores = formulario.errors
+                return render(request, 'motos/create_reserva.html', {"formulario": formulario, "errores": errores})
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if response.status_code == 400:
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error, errores[error])
+                return render(request, 'motos/create_reserva.html', {"formulario": formulario})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+    else:
+        formulario = ReservaForm(request_usuario=request)
+    return render(request, 'motos/create_reserva.html', {"formulario": formulario})
+
 
 
 def reservar_moto(request, moto_id):
     try:
         headers = crear_cabecera(request)
         response = requests.post(
-            f'http://127.0.0.1:8000/api/v1/motos/reservar/{moto_id}',
+            f'https://alvaroclase.pythonanywhere.com//api/v1/motos/reservar/{moto_id}',
             headers=headers
         )
         if response.status_code == requests.codes.ok:
@@ -313,7 +376,7 @@ def moto_crear(request):
             datos["usuarios"] = request.POST.getlist("usuariosDisponibles")
             
             response = requests.post(
-                'http://127.0.0.1:8000/api/v1/motos/crear',
+                'https://alvaroclase.pythonanywhere.com//api/v1/motos/crear',
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -370,7 +433,7 @@ def moto_editar(request,moto_id):
             datos = request.POST.copy()
             datos["usuarios"] = request.POST.getlist("usuarios")             
             response = requests.put(
-                'http://127.0.0.1:8000/api/v1/motos/editar/'+str(moto_id),
+                'https://alvaroclase.pythonanywhere.com//api/v1/motos/editar/'+str(moto_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -416,7 +479,7 @@ def moto_editar_nombre(request,moto_id):
             headers = crear_cabecera(request)
             datos = request.POST.copy()
             response = requests.patch(
-                'http://127.0.0.1:8000/api/v1/motos/editar/nombre/'+str(moto_id),
+                'https://alvaroclase.pythonanywhere.com//api/v1/motos/editar/nombre/'+str(moto_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -447,7 +510,7 @@ def moto_eliminar(request,moto_id):
     try:
         headers = crear_cabecera(request)
         response = requests.delete(
-            'http://127.0.0.1:8000/api/v1/motos/eliminar/'+str(moto_id),
+            'https://alvaroclase.pythonanywhere.com//api/v1/motos/eliminar/'+str(moto_id),
             headers=headers,
         )
         if(response.status_code == requests.codes.ok):
@@ -480,7 +543,7 @@ def valoracion_crear(request):
                     "Content-Type": "application/json"
                 }
                 response = requests.post(
-                    'http://127.0.0.1:8000/api/v1/valoraciones/crear',
+                    'https://alvaroclase.pythonanywhere.com//api/v1/valoraciones/crear',
                     headers=headers,
                     data=json.dumps(datos)
                 )
@@ -489,7 +552,7 @@ def valoracion_crear(request):
                     return redirect("concesionarios_mostrar")
                 else:
                     print(response.status_code)
-                    response.raise_for_status()
+                    response.raise_for_status() 
             else:
                 errores = formulario.errors
                 return render(request, 'motos/create_valoracion.html', {"formulario": formulario, "errores": errores})
@@ -533,7 +596,7 @@ def concesionario_crear(request):
                                                         day=int(datos['fecha_apertura_day'])))
             
             response = requests.post(
-                'http://127.0.0.1:8000/api/v1/concesionario/crear',
+                'https://alvaroclase.pythonanywhere.com//api/v1/concesionario/crear',
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -593,7 +656,7 @@ def concesionario_editar(request,concesionario_id):
                                                         day=int(datos['fecha_apertura_day'])))
             
             response = requests.put(
-                'http://127.0.0.1:8000/api/v1/concesionario/editar/'+str(concesionario_id),
+                'https://alvaroclase.pythonanywhere.com//api/v1/concesionario/editar/'+str(concesionario_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -641,7 +704,7 @@ def concesionario_editar_nombre(request,concesionario_id):
             headers = crear_cabecera(request)
             datos = request.POST.copy()
             response = requests.patch(
-                'http://127.0.0.1:8000/api/v1/concesionario/editar/nombre/'+str(concesionario_id),
+                'https://alvaroclase.pythonanywhere.com//api/v1/concesionario/editar/nombre/'+str(concesionario_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -674,7 +737,7 @@ def concesionario_eliminar(request,concesionario_id):
     try:
         headers = crear_cabecera(request)
         response = requests.delete(
-            'http://127.0.0.1:8000/api/v1/concesionario/eliminar/'+str(concesionario_id),
+            'https://alvaroclase.pythonanywhere.com//api/v1/concesionario/eliminar/'+str(concesionario_id),
             headers=headers,
         )
         if(response.status_code == requests.codes.ok):
@@ -708,7 +771,7 @@ def evento_crear(request):
                                                         day=int(datos['fecha_day'])))
             
             response = requests.post(
-                'http://127.0.0.1:8000/api/v1/evento/crear',
+                'https://alvaroclase.pythonanywhere.com//api/v1/evento/crear',
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -771,7 +834,7 @@ def evento_editar(request,evento_id):
                                                         day=int(datos['fecha_day'])))
             
             response = requests.put(
-                'http://127.0.0.1:8000/api/v1/evento/editar/'+str(evento_id),
+                'https://alvaroclase.pythonanywhere.com//api/v1/evento/editar/'+str(evento_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -819,7 +882,7 @@ def evento_editar_nombre(request,evento_id):
             headers = crear_cabecera(request)
             datos = request.POST.copy()
             response = requests.patch(
-                'http://127.0.0.1:8000/api/v1/evento/editar/nombre/'+str(evento_id),
+                'https://alvaroclase.pythonanywhere.com//api/v1/evento/editar/nombre/'+str(evento_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -852,7 +915,7 @@ def evento_eliminar(request,evento_id):
     try:
         headers = crear_cabecera(request)
         response = requests.delete(
-            'http://127.0.0.1:8000/api/v1/evento/eliminar/'+str(evento_id),
+            'https://alvaroclase.pythonanywhere.com//api/v1/evento/eliminar/'+str(evento_id),
             headers=headers,
         )
         if(response.status_code == requests.codes.ok):
@@ -879,7 +942,7 @@ def registrar_usuario(request):
                             "Content-Type": "application/json" 
                         }
                 response = requests.post(
-                    'http://127.0.0.1:8000/api/v1/registrar/usuario',
+                    'https://alvaroclase.pythonanywhere.com//api/v1/registrar/usuario',
                     headers=headers,
                     data=json.dumps(formulario.cleaned_data)
                 )
@@ -927,7 +990,7 @@ def login(request):
             
           
             headers = {'Authorization': 'Bearer '+token_acceso} 
-            response = requests.get('http://127.0.0.1:8000/api/v1/usuario/token/'+token_acceso,headers=headers)
+            response = requests.get('https://alvaroclase.pythonanywhere.com//api/v1/usuario/token/'+token_acceso,headers=headers)
             usuario = response.json()
             request.session["usuario"] = usuario
             

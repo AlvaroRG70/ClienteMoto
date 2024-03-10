@@ -36,7 +36,11 @@ urlpatterns = [
     path('valoracion/crear',views.valoracion_crear,name='valoraciones_crear'),
     
     path("motos/lista/caballos", views.motos_lista_caballos, name="motos_mostrar_caballos"),
-    path("motos/reservar/<int:moto_id>", views.reservar_moto, name="motos_reservar"),
+    path("motos/reservar/<int:moto_id>", views.reservar_moto, name="motos_reser"),
+    path("motos/reservar/lista", views.motos_lista_reserva, name="motos_reservar"),
+    path("motos/reservar/crear", views.reserva_crear, name="reservas_crear"),
+    
+    
     
     
     

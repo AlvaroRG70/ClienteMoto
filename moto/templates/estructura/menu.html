@@ -17,6 +17,9 @@
 
         <li><a href="{% url 'valoraciones_crear' %}" class="enlacemenu">Crear Valoraciones</a></li>
 
+        <li><a href="{% url 'motos_reservar' %}" class="enlacemenu">Ver Reservas</a></li>
+
+
         {%if request.session.usuario.rol == 1%}
         <li><a href="{% url 'motos_crear' %}" class="enlacemenu">Moto crear</a></li>    
         {% endif%}

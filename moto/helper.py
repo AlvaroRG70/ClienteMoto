@@ -13,7 +13,7 @@ class helper:
     def obtener_usuarios_select(request):
         # Obtenemos todos los usuarios
         headers = {'Authorization': 'Bearer ' + request.session["token"]}
-        response = requests.get('http://127.0.0.1:8000/api/v1/usuarios', headers=headers)
+        response = requests.get('https://alvaroclase.pythonanywhere.com//api/v1/usuarios', headers=headers)
         usuarios = response.json()
 
         lista_usuarios = [("","Ninguna")]
@@ -24,7 +24,7 @@ class helper:
     def obtener_motos_select(request):
 
         headers = {'Authorization': 'Bearer ' + request.session["token"]}
-        response = requests.get('http://127.0.0.1:8000/api/v1/usuarios', headers=headers)
+        response = requests.get('https://alvaroclase.pythonanywhere.com//api/v1/motos', headers=headers)
         motos = response.json()
 
         lista_motos = [("","Ninguna")]
@@ -36,7 +36,7 @@ class helper:
     def obtener_concesionarios_select(request):
 
         headers = {'Authorization': 'Bearer ' + request.session["token"]}
-        response = requests.get('http://127.0.0.1:8000/api/v1/conc', headers=headers)
+        response = requests.get('https://alvaroclase.pythonanywhere.com//api/v1/conc', headers=headers)
         concesionarios = response.json()
 
         lista_concesionarios = [("","Ninguna")]
@@ -47,7 +47,7 @@ class helper:
     def obtener_moto(id, request):
          # obtenemos todos los libros
         headers = {'Authorization': 'Bearer '+request.session["token"]} 
-        response = requests.get('http://127.0.0.1:8000/api/v1/motos/'+str(id),headers=headers)
+        response = requests.get('https://alvaroclase.pythonanywhere.com//api/v1/motos/'+str(id),headers=headers)
         print(response)
         moto = response.json()
         print('alli')
@@ -58,7 +58,7 @@ class helper:
     def obtener_concesionario(id, request):
 
         headers = {'Authorization': 'Bearer '+request.session["token"]} 
-        response = requests.get('http://127.0.0.1:8000/api/v1/concesionario/'+str(id),headers=headers)
+        response = requests.get('https://alvaroclase.pythonanywhere.com//api/v1/concesionario/'+str(id),headers=headers)
         concesionario = response.json()
         return concesionario
     
@@ -68,7 +68,7 @@ class helper:
     def obtener_evento(id, request):
 
         headers = {'Authorization': 'Bearer '+request.session["token"]} 
-        response = requests.get('http://127.0.0.1:8000/api/v1/evento/'+str(id),headers=headers)
+        response = requests.get('https://alvaroclase.pythonanywhere.com//api/v1/evento/'+str(id),headers=headers)
         print('aqui')
         print(response)
         evento = response.json()
@@ -78,7 +78,7 @@ class helper:
     
     
     def obtener_token_session(usuario,password):
-        token_url = 'http://127.0.0.1:8000/oauth2/token/'
+        token_url = 'https://alvaroclase.pythonanywhere.com//oauth2/token/'
         data = {
             'grant_type': 'password',       
             'username': usuario,

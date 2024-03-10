@@ -137,6 +137,30 @@ class ValoracionForm(forms.Form):
         )
         
         
+
+class ReservaForm(forms.Form):
+
+    
+    def __init__(self, *args, **kwargs):
+        
+        self.request = kwargs.pop("request_usuario")
+        super(ReservaForm, self).__init__(*args, **kwargs)
+        
+        usuariosDisponibles = helper.obtener_usuarios_select(self.request)
+        self.fields["usuario"] = forms.ChoiceField(
+            choices=usuariosDisponibles,
+            widget=forms.Select,
+            required=True,
+        )
+        
+        motosDisponibles = helper.obtener_motos_select(self.request)
+        self.fields["moto"] = forms.ChoiceField(
+            choices=motosDisponibles,
+            widget=forms.Select,
+            required=True,
+        )
+        
+        
         
 
 
